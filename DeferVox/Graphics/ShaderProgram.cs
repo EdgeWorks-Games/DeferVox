@@ -3,7 +3,7 @@ using System.Diagnostics;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
-namespace DeferVox
+namespace DeferVox.Graphics
 {
 	public sealed class ShaderProgram : IDisposable
 	{

@@ -21,10 +21,5 @@ namespace DeferVox
 		{
 			Entities.ForEach(e => e.Update(delta));
 		}
-
-		internal void Render()
-		{
-			Entities.ForEach(e => e.Render());
-		}
 	}
 }

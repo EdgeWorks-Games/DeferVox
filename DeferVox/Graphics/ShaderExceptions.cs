@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using OpenTK.Graphics.OpenGL4;
 
-namespace DeferVox
+namespace DeferVox.Graphics
 {
 	public class ProgramException : Exception, ISerializable
 	{

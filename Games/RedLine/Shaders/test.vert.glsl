@@ -8,7 +8,7 @@ layout(location = 0) in vec3 vertexPosition;
 layout(location = 1) in vec3 vertexColor;
 
 // Data going to the fragment shader
-out vec3 fragColor;
+flat out vec3 fragColor;
 
 void main()
 {
