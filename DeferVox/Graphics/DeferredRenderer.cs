@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using DeferVox.Entities;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
@@ -12,7 +12,6 @@ namespace DeferVox.Graphics
 		private readonly Matrix4 _projection;
 		private readonly Size _resolution;
 		private readonly ShaderProgram _shaderProgram;
-		private readonly Matrix4 _view;
 		private Matrix4 _pvMatrix;
 
 		public DeferredRenderer(Size resolution)
@@ -24,8 +23,7 @@ namespace DeferVox.Graphics
 				File.ReadAllText("Shaders/test.vert.glsl"),
 				File.ReadAllText("Shaders/test.frag.glsl"));
 
-			_projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(100), 1280f/720f, 0.1f, 100f);
-			_view = Matrix4.CreateTranslation(0, 0, -4);
+			_projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(60), 1280f/720f, 0.1f, 100f);
 		}
 
 		public void Render(GameScene scene)
@@ -33,6 +31,9 @@ namespace DeferVox.Graphics
 			// Set up OpenGL settings
 			GL.Enable(EnableCap.DepthTest);
 			GL.Enable(EnableCap.CullFace);
+			GL.CullFace(CullFaceMode.Back);
+			// For some reason, it's culling the exact opposite faces so I flipped it, the correct order IS counter-clockwise
+			GL.FrontFace(FrontFaceDirection.Cw);
 			GL.Viewport(0, 0, _resolution.Width, _resolution.Height);
 
 			// Clear the default buffer
@@ -40,7 +41,11 @@ namespace DeferVox.Graphics
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 			// Multiply the projection and view in advance
-			_pvMatrix = _view*_projection;
+			var view =
+				Matrix4.CreateTranslation(5, -5, -5)*
+				Matrix4.CreateRotationY(MathHelper.DegreesToRadians(40))*
+				Matrix4.CreateRotationX(MathHelper.DegreesToRadians(40));
+			_pvMatrix = view*_projection;
 
 			// Render the currently active scene
 			scene.Entities.ForEach(e => e.Render(this));
@@ -88,7 +93,7 @@ namespace DeferVox.Graphics
 				Vector3.SizeInBytes); // start offset
 
 			// Actually draw the triangle
-			GL.DrawArrays(PrimitiveType.Triangles, 0, 12);
+			GL.DrawArrays(PrimitiveType.Triangles, 0, meshData.Length);
 
 			// Clean up
 			GL.DisableVertexAttribArray(0);

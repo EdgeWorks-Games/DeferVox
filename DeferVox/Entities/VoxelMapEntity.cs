@@ -2,38 +2,67 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using DeferVox.Graphics;
+using OpenTK;
 
 namespace DeferVox.Entities
 {
 	internal struct Voxel
 	{
+		public static readonly PositionColorVertex[] Mesh =
+		{
+			// Front
+			new PositionColorVertex(0f, 0f, 0f, Color.FromArgb(0, 130, 0)), // Left Bottom
+			new PositionColorVertex(1f, 0f, 0f, Color.FromArgb(0, 130, 0)), // Right Bottom
+			new PositionColorVertex(0f, 1f, 0f, Color.FromArgb(0, 130, 0)), // Left Top
+
+			new PositionColorVertex(1f, 0f, 0f, Color.FromArgb(0, 130, 0)), // Right Bottom
+			new PositionColorVertex(1f, 1f, 0f, Color.FromArgb(0, 130, 0)), // Right Top
+			new PositionColorVertex(0f, 1f, 0f, Color.FromArgb(0, 130, 0)), // Left Top
+			
+			// Left
+			new PositionColorVertex(0f, 0f, 1f, Color.FromArgb(0, 120, 0)), // Left Bottom 
+			new PositionColorVertex(0f, 0f, 0f, Color.FromArgb(0, 120, 0)), // Right Bottom
+			new PositionColorVertex(0f, 1f, 1f, Color.FromArgb(0, 120, 0)), // Left Top
+
+			new PositionColorVertex(0f, 0f, 0f, Color.FromArgb(0, 120, 0)), // Right Bottom
+			new PositionColorVertex(0f, 1f, 0f, Color.FromArgb(0, 120, 0)), // Right Top
+			new PositionColorVertex(0f, 1f, 1f, Color.FromArgb(0, 120, 0)), // Left Top
+
+			// Right
+			new PositionColorVertex(1f, 0f, 0f, Color.FromArgb(0, 120, 0)), // Left Bottom 
+			new PositionColorVertex(1f, 0f, 1f, Color.FromArgb(0, 120, 0)), // Right Bottom
+			new PositionColorVertex(1f, 1f, 0f, Color.FromArgb(0, 120, 0)), // Left Top
+
+			new PositionColorVertex(1f, 0f, 1f, Color.FromArgb(0, 120, 0)), // Right Bottom
+			new PositionColorVertex(1f, 1f, 1f, Color.FromArgb(0, 120, 0)), // Right Top
+			new PositionColorVertex(1f, 1f, 0f, Color.FromArgb(0, 120, 0)), // Left Top
+
+			// Back
+			new PositionColorVertex(1f, 0f, 1f, Color.FromArgb(0, 110, 0)), // Left Bottom 
+			new PositionColorVertex(0f, 0f, 1f, Color.FromArgb(0, 110, 0)), // Right Bottom
+			new PositionColorVertex(1f, 1f, 1f, Color.FromArgb(0, 110, 0)), // Left Top
+
+			new PositionColorVertex(0f, 0f, 1f, Color.FromArgb(0, 110, 0)), // Right Bottom
+			new PositionColorVertex(0f, 1f, 1f, Color.FromArgb(0, 110, 0)), // Right Top
+			new PositionColorVertex(1f, 1f, 1f, Color.FromArgb(0, 110, 0)), // Left Top
+
+			// Top
+			new PositionColorVertex(0f, 1f, 0f, Color.FromArgb(0, 140, 0)), // Left Bottom 
+			new PositionColorVertex(1f, 1f, 0f, Color.FromArgb(0, 140, 0)), // Right Bottom
+			new PositionColorVertex(0f, 1f, 1f, Color.FromArgb(0, 140, 0)), // Left Top
+
+			new PositionColorVertex(1f, 1f, 0f, Color.FromArgb(0, 140, 0)), // Right Bottom
+			new PositionColorVertex(1f, 1f, 1f, Color.FromArgb(0, 140, 0)), // Right Top
+			new PositionColorVertex(0f, 1f, 1f, Color.FromArgb(0, 140, 0)) // Left Top
+		};
+
 		public readonly bool IsSolid;
 
 		public Voxel(bool isSolid)
 		{
 			IsSolid = isSolid;
 		}
-
-		public static PositionColorVertex[] VoxelMesh =
-		{
-			// Front
-			new PositionColorVertex(0f, 0f, 0f, Color.Red), // Left Bottom
-			new PositionColorVertex(1f, 0f, 0f, Color.FromArgb(0,128,0)), // Right Bottom
-			new PositionColorVertex(0f, 1f, 0f, Color.Blue), // Left Top
-
-			new PositionColorVertex(1f, 0f, 0f, Color.Blue), // Right Bottom
-			new PositionColorVertex(1f, 1f, 0f, Color.Blue), // Right Top
-			new PositionColorVertex(0f, 1f, 0f, Color.Blue), // Left Top
-
-			// Back
-			new PositionColorVertex(1f, 0f, 1f, Color.Blue), // Left Bottom 
-			new PositionColorVertex(0f, 0f, 1f, Color.Blue), // Right Bottom
-			new PositionColorVertex(1f, 1f, 1f, Color.Blue), // Left Top
-
-			new PositionColorVertex(0f, 0f, 1f, Color.Blue), // Right Bottom
-			new PositionColorVertex(0f, 1f, 1f, Color.Blue), // Right Top
-			new PositionColorVertex(1f, 1f, 1f, Color.Blue) // Left Top
-		};
 	}
 
 	internal class VoxelChunk
@@ -73,6 +102,7 @@ namespace DeferVox.Entities
 		{
 			_chunks.Add(VoxelChunk.Generate(new Vector3i(0, 0, 0)));
 			_chunks.Add(VoxelChunk.Generate(new Vector3i(-1, 0, -1)));
+			_chunks[0].Voxels[1][1][1] = new Voxel(true);
 
 			Trace.TraceInformation("Generated {0} chunk{1}!", _chunks.Count, _chunks.Count == 1 ? "" : "s");
 		}
@@ -87,6 +117,29 @@ namespace DeferVox.Entities
 
 		public void Render(IRenderer renderer)
 		{
+			foreach (var chunk in _chunks)
+			{
+				for (var x = 0; x < VoxelChunk.Size; x++)
+				{
+					for (var y = 0; y < VoxelChunk.Size; y++)
+					{
+						for (var z = 0; z < VoxelChunk.Size; z++)
+						{
+							if (!chunk.Voxels[x][y][z].IsSolid)
+								continue;
+
+							// TODO: Make chunks have one big mesh instead of many small ones
+							renderer.RenderStreamedMesh(
+								new Vector3(
+									(chunk.Position.X*VoxelChunk.Size) + x,
+									(chunk.Position.Y*VoxelChunk.Size) + y,
+									(chunk.Position.Z*VoxelChunk.Size) + z),
+								Vector3.Zero,
+								Voxel.Mesh);
+						}
+					}
+				}
+			}
 		}
 	}
 }

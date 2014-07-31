@@ -1,5 +1,5 @@
 ﻿using System;
-using DeferVox.Entities;
+using DeferVox.Graphics;
 using OpenTK;
 
 namespace DeferVox
@@ -7,6 +7,6 @@ namespace DeferVox
 	public interface IRenderer : IDisposable
 	{
 		void Render(GameScene scene);
-		void RenderStreamedMesh(Vector3 position, Vector3 rotation, PositionColorVertex[] testBufferData);
+		void RenderStreamedMesh(Vector3 position, Vector3 rotation, PositionColorVertex[] meshData);
 	}
 }

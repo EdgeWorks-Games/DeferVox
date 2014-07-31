@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Graphics\PositionColorVertex.cs" />
     <Compile Include="IRenderer.cs" />
     <Compile Include="NumericsExtensions.cs" />
     <Compile Include="Graphics\DeferredRenderer.cs" />
