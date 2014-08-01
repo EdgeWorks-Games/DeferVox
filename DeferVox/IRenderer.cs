@@ -8,5 +8,6 @@ namespace DeferVox
 	{
 		void RenderScene(GameScene scene);
 		void RenderStreamedMesh(Vector3f position, Vector3f rotation, PositionColorVertex[] meshData);
+		void RenderStreamedMesh(Vector3f position, Vector3f rotation, PositionUvVertex[] meshData);
 	}
 }

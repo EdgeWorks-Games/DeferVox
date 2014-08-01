@@ -34,6 +34,7 @@ namespace DeferVox.Graphics
 		public void RenderScene(GameScene scene)
 		{
 			// Set up OpenGL settings
+			GL.Disable(EnableCap.Blend);
 			GL.Enable(EnableCap.DepthTest);
 			GL.Enable(EnableCap.CullFace);
 			GL.CullFace(CullFaceMode.Back);
@@ -59,51 +60,50 @@ namespace DeferVox.Graphics
 
 		public void RenderStreamedMesh(Vector3f position, Vector3f rotation, PositionColorVertex[] meshData)
 		{
-			// Send the mesh data to the GPU in a vertex buffer
+			InternalRenderStreamedMesh(
+				position, rotation,
+				meshData, PositionColorVertex.SizeInBytes * meshData.Length,
+				PositionColorVertex.SetVertexAttribPointers, PositionColorVertex.ClearVertexAttribPointers);
+		}
+
+		public void RenderStreamedMesh(Vector3f position, Vector3f rotation, PositionUvVertex[] meshData)
+		{
+			InternalRenderStreamedMesh(
+				position, rotation,
+				meshData, PositionUvVertex.SizeInBytes * meshData.Length,
+				PositionUvVertex.SetVertexAttribPointers, PositionUvVertex.ClearVertexAttribPointers);
+		}
+
+		private void InternalRenderStreamedMesh<T>(
+			Vector3f position, Vector3f rotation,
+			T[] meshData, int meshSizeInBytes,
+			Action setPointers, Action clearPointers)
+			where T : struct
+		{
+			// Set the shader settings
+			_colorShaderProgram.Use();
+			var model =
+				Matrix4.CreateRotationX(rotation.X) *
+				Matrix4.CreateRotationY(rotation.Y) *
+				Matrix4.CreateRotationZ(rotation.Z) *
+				Matrix4.CreateTranslation(position.ToVector3());
+			_colorShaderProgram.MvpMatrix = model * _pvMatrix;
+
+			// Set information about the data we're going to draw
 			var arrayBufferId = GL.GenBuffer();
 			GL.BindBuffer(BufferTarget.ArrayBuffer, arrayBufferId);
 			GL.BufferData(
 				BufferTarget.ArrayBuffer,
-				new IntPtr(PositionColorVertex.SizeInBytes*meshData.Length),
+				new IntPtr(meshSizeInBytes),
 				meshData,
 				BufferUsageHint.StreamDraw);
+			setPointers();
 
-			// Set the shader settings
-			_colorShaderProgram.Use();
-			var model =
-				Matrix4.CreateRotationX(rotation.X)*
-				Matrix4.CreateRotationY(rotation.Y)*
-				Matrix4.CreateRotationZ(rotation.Z)*
-				Matrix4.CreateTranslation(position.ToVector3());
-			_colorShaderProgram.MvpMatrix = model*_pvMatrix;
-
-			// Set information about the data we're going to draw
-			GL.BindBuffer(BufferTarget.ArrayBuffer, arrayBufferId);
-
-			GL.EnableVertexAttribArray(0);
-			GL.VertexAttribPointer( // Vertices
-				0, // attribute layout #0
-				3, // size
-				VertexAttribPointerType.Float, // type
-				false, // normalize this attribute?
-				PositionColorVertex.SizeInBytes, // offset between values
-				0); // start offset
-
-			GL.EnableVertexAttribArray(1);
-			GL.VertexAttribPointer( // Colors
-				1, // attribute layout #1
-				3, // size
-				VertexAttribPointerType.Float, // type
-				false, // normalize this attribute?
-				PositionColorVertex.SizeInBytes, // offset between values
-				Vector3.SizeInBytes); // start offset
-
-			// Actually draw the triangle
+			// Actually draw the triangles
 			GL.DrawArrays(PrimitiveType.Triangles, 0, meshData.Length);
 
 			// Clean up
-			GL.DisableVertexAttribArray(0);
-			GL.DisableVertexAttribArray(1);
+			clearPointers();
 			GL.DeleteBuffer(arrayBufferId);
 		}
 

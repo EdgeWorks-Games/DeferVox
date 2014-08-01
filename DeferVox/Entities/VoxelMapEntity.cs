@@ -110,6 +110,8 @@ namespace DeferVox.Entities
 		public VoxelMapEntity()
 		{
 			_chunks.Add(VoxelChunk.Generate(new Vector3i(0, 0, 0)));
+			_chunks.Add(VoxelChunk.Generate(new Vector3i(-1, 0, 0)));
+			_chunks.Add(VoxelChunk.Generate(new Vector3i(0, 0, -1)));
 			_chunks.Add(VoxelChunk.Generate(new Vector3i(-1, 0, -1)));
 			_chunks[0].Voxels[1][1][1] = new Voxel(true);
 

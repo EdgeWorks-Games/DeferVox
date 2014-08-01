@@ -1,30 +1,29 @@
-﻿using System.Drawing;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
 namespace DeferVox.Graphics
 {
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
-	public struct PositionColorVertex
+	public struct PositionUvVertex
 	{
 		public readonly Vector3 Position;
-		public readonly Vector3 Color;
+		public readonly Vector2 UV;
 
-		public PositionColorVertex(float x, float y, float z, Color color)
+		public PositionUvVertex(float x, float y, float z, float uvX, float uvY)
 		{
 			Position = new Vector3(x, y, z);
-			Color = new Vector3(color.R/255f, color.G/255f, color.B/255f);
+			UV = new Vector2(uvX, uvY);
 		}
 
-		public static readonly int SizeInBytes = Marshal.SizeOf(new PositionColorVertex());
+		public static readonly int SizeInBytes = Marshal.SizeOf(new PositionUvVertex());
 
 		public static void SetVertexAttribPointers()
 		{
 			GL.EnableVertexAttribArray(0);
 			GL.VertexAttribPointer( // Vertices
 				0, // attribute layout #0
-				3, // size
+				Vector3.SizeInBytes, // size
 				VertexAttribPointerType.Float, // type
 				false, // normalize this attribute?
 				SizeInBytes, // offset between values
@@ -33,7 +32,7 @@ namespace DeferVox.Graphics
 			GL.EnableVertexAttribArray(1);
 			GL.VertexAttribPointer( // Colors
 				1, // attribute layout #1
-				3, // size
+				Vector2.SizeInBytes, // size
 				VertexAttribPointerType.Float, // type
 				false, // normalize this attribute?
 				SizeInBytes, // offset between values

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using OpenTK;
@@ -26,7 +27,7 @@ namespace DeferVox
 			// Set up the game window
 			_gameWindow = new GameWindow(
 				1280, 720,
-				new GraphicsMode(32, 16, 0, 0), // Deferred rendering so no samples
+				new GraphicsMode(new ColorFormat(8, 8, 8, 1), 16, 0, 0), // Deferred rendering so no samples
 				friendlyName,
 				GameWindowFlags.FixedWindow);
 
@@ -64,7 +65,11 @@ namespace DeferVox
 
 		private void _gameWindow_RenderFrame(object sender, FrameEventArgs e)
 		{
+			var stopwatch = new Stopwatch();
+			stopwatch.Start();
 			_renderer.RenderScene(_currentScene);
+			stopwatch.Stop();
+			Trace.TraceInformation(stopwatch.Elapsed.ToString());
 
 			_gameWindow.SwapBuffers();
 		}
