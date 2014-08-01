@@ -7,7 +7,6 @@ namespace DeferVox
 	public interface IRenderer : IDisposable
 	{
 		void RenderScene(GameScene scene);
-		void RenderStreamedMesh(Vector3f position, Vector3f rotation, PositionColorVertex[] meshData);
-		void RenderStreamedMesh(Vector3f position, Vector3f rotation, PositionUvVertex[] meshData);
+		void RenderMesh(Vector3f position, Vector3f rotation, StaticMesh<PositionColorVertex> mesh);
 	}
 }

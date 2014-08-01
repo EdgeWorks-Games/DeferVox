@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
 using System.Numerics;
 using OpenTK;
@@ -58,27 +57,7 @@ namespace DeferVox.Graphics
 			scene.Entities.ForEach(e => e.Render(this));
 		}
 
-		public void RenderStreamedMesh(Vector3f position, Vector3f rotation, PositionColorVertex[] meshData)
-		{
-			InternalRenderStreamedMesh(
-				position, rotation,
-				meshData, PositionColorVertex.SizeInBytes * meshData.Length,
-				PositionColorVertex.SetVertexAttribPointers, PositionColorVertex.ClearVertexAttribPointers);
-		}
-
-		public void RenderStreamedMesh(Vector3f position, Vector3f rotation, PositionUvVertex[] meshData)
-		{
-			InternalRenderStreamedMesh(
-				position, rotation,
-				meshData, PositionUvVertex.SizeInBytes * meshData.Length,
-				PositionUvVertex.SetVertexAttribPointers, PositionUvVertex.ClearVertexAttribPointers);
-		}
-
-		private void InternalRenderStreamedMesh<T>(
-			Vector3f position, Vector3f rotation,
-			T[] meshData, int meshSizeInBytes,
-			Action setPointers, Action clearPointers)
-			where T : struct
+		public void RenderMesh(Vector3f position, Vector3f rotation, StaticMesh<PositionColorVertex> mesh)
 		{
 			// Set the shader settings
 			_colorShaderProgram.Use();
@@ -89,22 +68,12 @@ namespace DeferVox.Graphics
 				Matrix4.CreateTranslation(position.ToVector3());
 			_colorShaderProgram.MvpMatrix = model * _pvMatrix;
 
-			// Set information about the data we're going to draw
-			var arrayBufferId = GL.GenBuffer();
-			GL.BindBuffer(BufferTarget.ArrayBuffer, arrayBufferId);
-			GL.BufferData(
-				BufferTarget.ArrayBuffer,
-				new IntPtr(meshSizeInBytes),
-				meshData,
-				BufferUsageHint.StreamDraw);
-			setPointers();
+			GL.BindBuffer(BufferTarget.ArrayBuffer, mesh.BufferId);
+			PositionColorVertex.SetVertexAttribPointers();
 
-			// Actually draw the triangles
-			GL.DrawArrays(PrimitiveType.Triangles, 0, meshData.Length);
+			GL.DrawArrays(PrimitiveType.Triangles, 0, mesh.VertexCount);
 
-			// Clean up
-			clearPointers();
-			GL.DeleteBuffer(arrayBufferId);
+			PositionColorVertex.ClearVertexAttribPointers();
 		}
 
 		public void Dispose()

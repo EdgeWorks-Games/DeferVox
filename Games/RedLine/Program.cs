@@ -22,12 +22,6 @@ namespace RedLine
 		{
 			var scene = new GameScene();
 
-			// Add a single test entity
-			scene.Entities.Add(new TestEntity
-			{
-				Position = new Vector3f(0, 2, 0)
-			});
-
 			// Add the voxel map
 			scene.Entities.Add(new VoxelMapEntity());
 

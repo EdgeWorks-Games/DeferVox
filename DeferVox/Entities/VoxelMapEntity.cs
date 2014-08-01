@@ -106,6 +106,7 @@ namespace DeferVox.Entities
 	public class VoxelMapEntity : IEntity
 	{
 		private readonly List<VoxelChunk> _chunks = new List<VoxelChunk>();
+		private readonly StaticMesh<PositionColorVertex> _voxelMesh;
 
 		public VoxelMapEntity()
 		{
@@ -114,12 +115,14 @@ namespace DeferVox.Entities
 			_chunks.Add(VoxelChunk.Generate(new Vector3i(0, 0, -1)));
 			_chunks.Add(VoxelChunk.Generate(new Vector3i(-1, 0, -1)));
 			_chunks[0].Voxels[1][1][1] = new Voxel(true);
-
 			Trace.TraceInformation("Generated {0} chunk{1}!", _chunks.Count, _chunks.Count == 1 ? "" : "s");
+
+			_voxelMesh = new StaticMesh<PositionColorVertex>(Voxel.Mesh, PositionColorVertex.SizeInBytes);
 		}
 
 		public void Dispose()
 		{
+			_voxelMesh.Dispose();
 		}
 
 		public void Update(TimeSpan delta)
@@ -139,14 +142,14 @@ namespace DeferVox.Entities
 							if (!chunk.Voxels[x][y][z].IsSolid)
 								continue;
 
-							// TODO: Make chunks have one big mesh instead of many small ones
-							renderer.RenderStreamedMesh(
+							// TODO: Make chunks have one big mesh instead of the block mesh many times
+							renderer.RenderMesh(
 								new Vector3f(
 									(chunk.Position.X*VoxelChunk.Size) + x,
 									(chunk.Position.Y*VoxelChunk.Size) + y,
 									(chunk.Position.Z*VoxelChunk.Size) + z),
 								Vector3f.Zero,
-								Voxel.Mesh);
+								_voxelMesh);
 						}
 					}
 				}

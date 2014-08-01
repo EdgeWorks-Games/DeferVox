@@ -31,6 +31,7 @@ namespace DeferVox
 				friendlyName,
 				GameWindowFlags.FixedWindow);
 
+			_gameWindow.VSync = VSyncMode.Off;
 			_gameWindow.Load += _gameWindow_Load;
 			_gameWindow.RenderFrame += _gameWindow_RenderFrame;
 			_gameWindow.UpdateFrame += _gameWindow_UpdateFrame;
@@ -65,11 +66,7 @@ namespace DeferVox
 
 		private void _gameWindow_RenderFrame(object sender, FrameEventArgs e)
 		{
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
 			_renderer.RenderScene(_currentScene);
-			stopwatch.Stop();
-			Trace.TraceInformation(stopwatch.Elapsed.ToString());
 
 			_gameWindow.SwapBuffers();
 		}
