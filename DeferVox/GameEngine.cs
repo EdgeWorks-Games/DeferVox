@@ -53,7 +53,7 @@ namespace DeferVox
 
 		private void _gameWindow_UpdateFrame(object sender, FrameEventArgs e)
 		{
-			var delta = TimeSpan.FromSeconds(e.Time);
+			var delta = TimeSpan.FromSeconds(Math.Min(e.Time, 0.4));
 
 			if (Keyboard.GetState().IsKeyDown(Key.Escape))
 				_gameWindow.Exit();
@@ -64,7 +64,7 @@ namespace DeferVox
 
 		private void _gameWindow_RenderFrame(object sender, FrameEventArgs e)
 		{
-			_renderer.Render(_currentScene);
+			_renderer.RenderScene(_currentScene);
 
 			_gameWindow.SwapBuffers();
 		}

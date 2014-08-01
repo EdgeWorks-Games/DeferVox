@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Numerics;
 using DeferVox.Graphics;
-using OpenTK;
 
 namespace DeferVox
 {
 	public interface IRenderer : IDisposable
 	{
-		void Render(GameScene scene);
-		void RenderStreamedMesh(Vector3 position, Vector3 rotation, PositionColorVertex[] meshData);
+		void RenderScene(GameScene scene);
+		void RenderStreamedMesh(Vector3f position, Vector3f rotation, PositionColorVertex[] meshData);
 	}
 }

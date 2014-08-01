@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.Numerics;
 using DeferVox.Graphics;
-using OpenTK;
 
 namespace DeferVox.Entities
 {
@@ -30,6 +30,8 @@ namespace DeferVox.Entities
 
 		private float _rotation;
 
+		public Vector3f Position { get; set; }
+
 		public void Dispose()
 		{
 		}
@@ -41,7 +43,7 @@ namespace DeferVox.Entities
 
 		public void Render(IRenderer renderer)
 		{
-			renderer.RenderStreamedMesh(new Vector3(0, 2, 0), new Vector3(0, _rotation, 0), TestBufferData);
+			renderer.RenderStreamedMesh(Position, new Vector3f(0, _rotation, 0), TestBufferData);
 		}
 	}
 }

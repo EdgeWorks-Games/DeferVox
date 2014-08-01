@@ -1,8 +1,17 @@
-﻿using OpenTK;
+﻿using System.Numerics;
+using OpenTK;
 
 namespace DeferVox
 {
 // ReSharper disable InconsistentNaming
+	public static class NumericsExtensions
+	{
+		public static Vector3 ToVector3(this Vector3f vector)
+		{
+			return new Vector3(vector.X, vector.Y, vector.Z);
+		}
+	}
+
 	internal struct Vector3i
 	{
 		public int X;

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Numerics;
 using DeferVox.Graphics;
-using OpenTK;
 
 namespace DeferVox.Entities
 {
@@ -54,7 +54,16 @@ namespace DeferVox.Entities
 
 			new PositionColorVertex(1f, 1f, 0f, Color.FromArgb(0, 140, 0)), // Right Bottom
 			new PositionColorVertex(1f, 1f, 1f, Color.FromArgb(0, 140, 0)), // Right Top
-			new PositionColorVertex(0f, 1f, 1f, Color.FromArgb(0, 140, 0)) // Left Top
+			new PositionColorVertex(0f, 1f, 1f, Color.FromArgb(0, 140, 0)), // Left Top
+
+			// Bottom
+			new PositionColorVertex(0f, 0f, 1f, Color.FromArgb(0, 100, 0)), // Left Bottom 
+			new PositionColorVertex(1f, 0f, 1f, Color.FromArgb(0, 100, 0)), // Right Bottom
+			new PositionColorVertex(0f, 0f, 0f, Color.FromArgb(0, 100, 0)), // Left Top
+
+			new PositionColorVertex(1f, 0f, 1f, Color.FromArgb(0, 100, 0)), // Right Bottom
+			new PositionColorVertex(1f, 0f, 0f, Color.FromArgb(0, 100, 0)), // Right Top
+			new PositionColorVertex(0f, 0f, 0f, Color.FromArgb(0, 100, 0)) // Left Top
 		};
 
 		public readonly bool IsSolid;
@@ -130,11 +139,11 @@ namespace DeferVox.Entities
 
 							// TODO: Make chunks have one big mesh instead of many small ones
 							renderer.RenderStreamedMesh(
-								new Vector3(
+								new Vector3f(
 									(chunk.Position.X*VoxelChunk.Size) + x,
 									(chunk.Position.Y*VoxelChunk.Size) + y,
 									(chunk.Position.Z*VoxelChunk.Size) + z),
-								Vector3.Zero,
+								Vector3f.Zero,
 								Voxel.Mesh);
 						}
 					}

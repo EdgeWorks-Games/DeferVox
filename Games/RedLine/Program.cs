@@ -1,4 +1,5 @@
-﻿using DeferVox;
+﻿using System.Numerics;
+using DeferVox;
 using DeferVox.Entities;
 using DeferVox.Graphics;
 
@@ -22,7 +23,10 @@ namespace RedLine
 			var scene = new GameScene();
 
 			// Add a single test entity
-			scene.Entities.Add(new TestEntity());
+			scene.Entities.Add(new TestEntity
+			{
+				Position = new Vector3f(0, 2, 0)
+			});
 
 			// Add the voxel map
 			scene.Entities.Add(new VoxelMapEntity());
