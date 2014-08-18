@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DeferVox
 {
@@ -7,19 +7,21 @@ namespace DeferVox
 	{
 		public GameScene()
 		{
-			Entities = new List<IEntity>();
+			Entities = new Collection<IEntity>();
 		}
 
-		public List<IEntity> Entities { get; set; }
+		public Collection<IEntity> Entities { get; private set; }
 
 		public void Dispose()
 		{
-			Entities.ForEach(e => e.Dispose());
+			foreach(var entity in Entities)
+				entity.Dispose();
 		}
 
 		internal void Update(TimeSpan delta)
 		{
-			Entities.ForEach(e => e.Update(delta));
+			foreach (var entity in Entities)
+				entity.Update(delta);
 		}
 	}
 }

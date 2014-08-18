@@ -2,18 +2,18 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
-namespace DeferVox.Graphics
+namespace DeferVox.Rendering
 {
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	public struct PositionUvVertex
 	{
-		public readonly Vector3 Position;
-		public readonly Vector2 UV;
+		private readonly Vector3 _position;
+		private readonly Vector2 _UV;
 
 		public PositionUvVertex(float x, float y, float z, float uvX, float uvY)
 		{
-			Position = new Vector3(x, y, z);
-			UV = new Vector2(uvX, uvY);
+			_position = new Vector3(x, y, z);
+			_UV = new Vector2(uvX, uvY);
 		}
 
 		public static readonly int SizeInBytes = Marshal.SizeOf(new PositionUvVertex());
@@ -44,5 +44,39 @@ namespace DeferVox.Graphics
 			GL.DisableVertexAttribArray(0);
 			GL.DisableVertexAttribArray(1);
 		}
+
+		#region Equality Functions and Operators
+
+		public override int GetHashCode()
+		{
+			return _position.GetHashCode() ^ _UV.GetHashCode();
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (!(obj is PositionUvVertex))
+				return false;
+
+			return Equals((PositionUvVertex)obj);
+		}
+
+		private bool Equals(PositionUvVertex other)
+		{
+			if (_position != other._position)
+				return false;
+			return _UV == other._UV;
+		}
+
+		public static bool operator ==(PositionUvVertex left, PositionUvVertex right)
+		{
+			return left.Equals(right);
+		}
+
+		public static bool operator !=(PositionUvVertex left, PositionUvVertex right)
+		{
+			return !left.Equals(right);
+		}
+
+		#endregion
 	}
 }

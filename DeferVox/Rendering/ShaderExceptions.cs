@@ -2,12 +2,22 @@
 using System.Runtime.Serialization;
 using OpenTK.Graphics.OpenGL4;
 
-namespace DeferVox.Graphics
+namespace DeferVox.Rendering
 {
+	[Serializable]
 	public class ProgramException : Exception, ISerializable
 	{
+		public ProgramException()
+		{
+		}
+
 		public ProgramException(string message)
 			: base(message)
+		{
+		}
+
+		public ProgramException(string message, Exception innerException)
+			: base(message, innerException)
 		{
 		}
 
@@ -33,8 +43,23 @@ namespace DeferVox.Graphics
 		}
 	}
 
+	[Serializable]
 	public class ShaderException : Exception, ISerializable
 	{
+		public ShaderException()
+		{
+		}
+
+		public ShaderException(string message)
+			: base(message)
+		{
+		}
+
+		public ShaderException(string message, Exception innerException)
+			: base(message, innerException)
+		{
+		}
+
 		public ShaderException(string message, string shaderLog, string shaderSource, ShaderType shaderType)
 			: base(message)
 		{

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using OpenTK;
@@ -12,14 +11,14 @@ namespace DeferVox
 	{
 		private readonly Func<GameScene> _defaultSceneFactory;
 		private readonly GameWindow _gameWindow;
-		private readonly Func<Size, IRenderer> _rendererFactory;
+		private readonly Func<Size, ISceneRenderer> _rendererFactory;
 		private GameScene _currentScene;
-		private IRenderer _renderer;
+		private ISceneRenderer _renderer;
 
 		public GameEngine(
 			string friendlyName,
 			Func<GameScene> defaultSceneFactory,
-			Func<Size, IRenderer> rendererFactory)
+			Func<Size, ISceneRenderer> rendererFactory)
 		{
 			_defaultSceneFactory = defaultSceneFactory;
 			_rendererFactory = rendererFactory;
@@ -31,7 +30,6 @@ namespace DeferVox
 				friendlyName,
 				GameWindowFlags.FixedWindow);
 
-			_gameWindow.VSync = VSyncMode.Off;
 			_gameWindow.Load += _gameWindow_Load;
 			_gameWindow.RenderFrame += _gameWindow_RenderFrame;
 			_gameWindow.UpdateFrame += _gameWindow_UpdateFrame;

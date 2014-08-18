@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Numerics;
-using DeferVox.Graphics;
+using DeferVox.Rendering;
 
 namespace DeferVox.Entities
 {
@@ -78,10 +78,10 @@ namespace DeferVox.Entities
 	{
 		public const int Size = 16;
 
-		public Vector3i Position { get; set; }
+		public Vector3I Position { get; set; }
 		public Voxel[][][] Voxels { get; set; }
 
-		public static VoxelChunk Generate(Vector3i position)
+		public static VoxelChunk Generate(Vector3I position)
 		{
 			var voxels = new Voxel[Size][][];
 			for (var x = 0; x < Size; x++)
@@ -103,17 +103,17 @@ namespace DeferVox.Entities
 		}
 	}
 
-	public class VoxelMapEntity : IEntity
+	public sealed class VoxelMapEntity : IRenderableEntity
 	{
 		private readonly List<VoxelChunk> _chunks = new List<VoxelChunk>();
 		private readonly StaticMesh<PositionColorVertex> _voxelMesh;
 
 		public VoxelMapEntity()
 		{
-			_chunks.Add(VoxelChunk.Generate(new Vector3i(0, 0, 0)));
-			_chunks.Add(VoxelChunk.Generate(new Vector3i(-1, 0, 0)));
-			_chunks.Add(VoxelChunk.Generate(new Vector3i(0, 0, -1)));
-			_chunks.Add(VoxelChunk.Generate(new Vector3i(-1, 0, -1)));
+			_chunks.Add(VoxelChunk.Generate(new Vector3I(0, 0, 0)));
+			_chunks.Add(VoxelChunk.Generate(new Vector3I(-1, 0, 0)));
+			_chunks.Add(VoxelChunk.Generate(new Vector3I(0, 0, -1)));
+			_chunks.Add(VoxelChunk.Generate(new Vector3I(-1, 0, -1)));
 			_chunks[0].Voxels[1][1][1] = new Voxel(true);
 			Trace.TraceInformation("Generated {0} chunk{1}!", _chunks.Count, _chunks.Count == 1 ? "" : "s");
 

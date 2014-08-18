@@ -1,12 +1,13 @@
 ﻿using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
-namespace DeferVox.Graphics
+namespace DeferVox.Rendering.Deferred
 {
-	public sealed class DeferredRenderer : IRenderer
+	public sealed class DeferredRenderer : ISceneRenderer, IRenderer
 	{
 		private readonly ShaderProgram _colorShaderProgram;
 		private readonly ShaderProgram _textureShaderProgram;
@@ -54,7 +55,11 @@ namespace DeferVox.Graphics
 			_pvMatrix = view*_projection;
 
 			// Render the currently active scene
-			scene.Entities.ForEach(e => e.Render(this));
+			// If this becomes a performance problem, cache the renderable entities
+			foreach(var entity in scene.Entities.OfType<IRenderableEntity>())
+			{
+				entity.Render(this);
+			}
 		}
 
 		public void RenderMesh(Vector3f position, Vector3f rotation, StaticMesh<PositionColorVertex> mesh)
@@ -66,7 +71,7 @@ namespace DeferVox.Graphics
 				Matrix4.CreateRotationY(rotation.Y) *
 				Matrix4.CreateRotationZ(rotation.Z) *
 				Matrix4.CreateTranslation(position.ToVector3());
-			_colorShaderProgram.MvpMatrix = model * _pvMatrix;
+			_colorShaderProgram.SetModelViewProjection(model * _pvMatrix);
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mesh.BufferId);
 			PositionColorVertex.SetVertexAttribPointers();

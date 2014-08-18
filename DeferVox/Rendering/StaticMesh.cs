@@ -1,9 +1,9 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL4;
 
-namespace DeferVox.Graphics
+namespace DeferVox.Rendering
 {
-	public class StaticMesh<TVertex> : IDisposable where TVertex : struct
+	public sealed class StaticMesh<TVertex> : IDisposable where TVertex : struct
 	{
 		public StaticMesh(TVertex[] mesh, int vertexSizeInBytes)
 		{

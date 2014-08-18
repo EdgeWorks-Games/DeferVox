@@ -3,18 +3,18 @@ using System.Runtime.InteropServices;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
-namespace DeferVox.Graphics
+namespace DeferVox.Rendering
 {
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	public struct PositionColorVertex
 	{
-		public readonly Vector3 Position;
-		public readonly Vector3 Color;
+		private readonly Vector3 _position;
+		private readonly Vector3 _color;
 
 		public PositionColorVertex(float x, float y, float z, Color color)
 		{
-			Position = new Vector3(x, y, z);
-			Color = new Vector3(color.R/255f, color.G/255f, color.B/255f);
+			_position = new Vector3(x, y, z);
+			_color = new Vector3(color.R/255f, color.G/255f, color.B/255f);
 		}
 
 		public static readonly int SizeInBytes = Marshal.SizeOf(new PositionColorVertex());
@@ -45,5 +45,39 @@ namespace DeferVox.Graphics
 			GL.DisableVertexAttribArray(0);
 			GL.DisableVertexAttribArray(1);
 		}
+
+		#region Equality Functions and Operators
+
+		public override int GetHashCode()
+		{
+			return _position.GetHashCode() ^ _color.GetHashCode();
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (!(obj is PositionColorVertex))
+				return false;
+
+			return Equals((PositionColorVertex) obj);
+		}
+
+		private bool Equals(PositionColorVertex other)
+		{
+			if (_position != other._position)
+				return false;
+			return _color == other._color;
+		}
+
+		public static bool operator ==(PositionColorVertex left, PositionColorVertex right)
+		{
+			return left.Equals(right);
+		}
+
+		public static bool operator !=(PositionColorVertex left, PositionColorVertex right)
+		{
+			return !left.Equals(right);
+		}
+
+		#endregion
 	}
 }

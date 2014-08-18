@@ -1,0 +1,23 @@
+<Dictionary>
+	<Words>
+		<Recognized>
+			<Word>Vox</Word>
+
+			<Word>Shader</Word>
+			<Word>Vert</Word>
+			<Word>Frag</Word>
+
+			<Word>Pos</Word>
+			<Word>Vec</Word>
+
+			<Word>X</Word>
+			<Word>Y</Word>
+			<Word>Z</Word>
+
+			<Word>Attrib</Word>
+			<Word>Uv</Word>
+
+			<Word>Renderable</Word>
+		</Recognized>
+	</Words>
+</Dictionary>

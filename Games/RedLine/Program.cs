@@ -1,7 +1,6 @@
-﻿using System.Numerics;
-using DeferVox;
+﻿using DeferVox;
 using DeferVox.Entities;
-using DeferVox.Graphics;
+using DeferVox.Rendering.Deferred;
 
 namespace RedLine
 {
@@ -20,12 +19,27 @@ namespace RedLine
 
 		private static GameScene CreateMainMenuScene()
 		{
-			var scene = new GameScene();
+			GameScene workingScene = null, finishedScene;
+			try
+			{
+				// Create our working scene
+				workingScene = new GameScene();
 
-			// Add the voxel map
-			scene.Entities.Add(new VoxelMapEntity());
+				// Add the voxel map
+				workingScene.Entities.Add(new VoxelMapEntity());
 
-			return scene;
+				// Mark the working scene as done
+				finishedScene = workingScene;
+				workingScene = null;
+			}
+			finally
+			{
+				// If an exception occured, clean up our working scene
+				if(workingScene != null)
+					workingScene.Dispose();
+			}
+
+			return finishedScene;
 		}
 	}
 }

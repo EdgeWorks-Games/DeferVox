@@ -3,7 +3,7 @@ using System.Diagnostics;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
-namespace DeferVox.Graphics
+namespace DeferVox.Rendering
 {
 	public sealed class ShaderProgram : IDisposable
 	{
@@ -25,13 +25,13 @@ namespace DeferVox.Graphics
 			var log = GL.GetProgramInfoLog(_program);
 			if (linkStatus != 1)
 			{
-				var message = string.Format("Shader program {0} failed to link!", _program);
+				var message = string.Format(null, "Shader program {0} failed to link!", _program);
 				Trace.TraceError(message);
 				throw new ProgramException(message, log);
 			}
 
 			// If there's anything in the log, it might be a warning
-			if (log != "")
+			if (!string.IsNullOrEmpty(log))
 			{
 				Trace.TraceWarning("Shader program {0} compiled with warnings:", _program);
 				Trace.Indent();
@@ -47,7 +47,7 @@ namespace DeferVox.Graphics
 
 			if (_mvpUniform == -1)
 			{
-				var message = string.Format("Shader program {0} does not contain required uniforms!", _program);
+				var message = string.Format(null, "Shader program {0} does not contain required uniforms!", _program);
 				Trace.TraceError(message);
 				throw new ProgramException(message);
 			}
@@ -55,12 +55,9 @@ namespace DeferVox.Graphics
 			Trace.TraceInformation("Created new shader program {0}!", _program);
 		}
 
-		public Matrix4 MvpMatrix
+		public void SetModelViewProjection(Matrix4 value)
 		{
-			set
-			{
-				GL.UniformMatrix4(_mvpUniform, false, ref value);
-			}
+			GL.UniformMatrix4(_mvpUniform, false, ref value);
 		}
 
 		public void Dispose()
@@ -91,7 +88,7 @@ namespace DeferVox.Graphics
 			GL.GetShader(shader, ShaderParameter.CompileStatus, out compileStatus);
 			if (compileStatus != 1)
 			{
-				var message = string.Format("Shader {0} failed to compile!", shader);
+				var message = string.Format(null, "Shader {0} failed to compile!", shader);
 				Trace.TraceWarning(message);
 				throw new ShaderException(
 					message,

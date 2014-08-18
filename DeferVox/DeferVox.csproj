@@ -49,19 +49,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graphics\PositionUvVertex.cs" />
-    <Compile Include="Graphics\PositionColorVertex.cs" />
-    <Compile Include="Graphics\StaticMesh.cs" />
-    <Compile Include="IRenderer.cs" />
+    <Compile Include="Rendering\IRenderableEntity.cs" />
+    <Compile Include="Rendering\PositionUvVertex.cs" />
+    <Compile Include="Rendering\PositionColorVertex.cs" />
+    <Compile Include="Rendering\StaticMesh.cs" />
+    <Compile Include="Rendering\IRenderer.cs" />
+    <Compile Include="ISceneRenderer.cs" />
     <Compile Include="NumericsExtensions.cs" />
-    <Compile Include="Graphics\DeferredRenderer.cs" />
     <Compile Include="Entities\VoxelMapEntity.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="GameScene.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Graphics\ShaderExceptions.cs" />
-    <Compile Include="Graphics\ShaderProgram.cs" />
+    <Compile Include="Rendering\ShaderExceptions.cs" />
+    <Compile Include="Rendering\ShaderProgram.cs" />
+    <Compile Include="Vector3I.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
