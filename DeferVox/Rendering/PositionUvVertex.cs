@@ -10,10 +10,10 @@ namespace DeferVox.Rendering
 		private readonly Vector3 _position;
 		private readonly Vector2 _UV;
 
-		public PositionUvVertex(float x, float y, float z, float uvX, float uvY)
+		public PositionUvVertex(float x, float y, float z, float u, float v)
 		{
 			_position = new Vector3(x, y, z);
-			_UV = new Vector2(uvX, uvY);
+			_UV = new Vector2(u, v);
 		}
 
 		public static readonly int SizeInBytes = Marshal.SizeOf(new PositionUvVertex());

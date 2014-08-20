@@ -9,7 +9,7 @@ namespace DeferVox.Voxels
 	public sealed class VoxelMapEntity : IRenderableEntity
 	{
 		private readonly List<VoxelChunk> _chunks = new List<VoxelChunk>();
-		private readonly StaticMesh<PositionColorVertex> _voxelMesh;
+		private readonly StaticMesh<PositionUvVertex> _voxelMesh;
 
 		public VoxelMapEntity()
 		{
@@ -20,7 +20,7 @@ namespace DeferVox.Voxels
 			_chunks[0].Voxels[1][1][1] = new Voxel(true);
 			Trace.TraceInformation("Generated {0} chunk{1}!", _chunks.Count, _chunks.Count == 1 ? "" : "s");
 
-			_voxelMesh = new StaticMesh<PositionColorVertex>(Voxel.Mesh, PositionColorVertex.SizeInBytes);
+			_voxelMesh = new StaticMesh<PositionUvVertex>(Voxel.Mesh, PositionUvVertex.SizeInBytes);
 		}
 
 		public void Dispose()

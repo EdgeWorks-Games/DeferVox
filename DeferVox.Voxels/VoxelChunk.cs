@@ -4,8 +4,8 @@
 	{
 		public const int Size = 16;
 
-		public Vector3I Position { get; set; }
-		public Voxel[][][] Voxels { get; set; }
+		public Vector3I Position { get; private set; }
+		public Voxel[][][] Voxels { get; private set; }
 
 		public static VoxelChunk Generate(Vector3I position)
 		{

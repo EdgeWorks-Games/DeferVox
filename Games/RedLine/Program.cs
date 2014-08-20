@@ -11,7 +11,7 @@ namespace RedLine
 			using (var engine = new GameEngine(
 				"Red Line",
 				InitializeMainMenuScene,
-				res => new DeferredRenderer(res)))
+				res => new DeferredSceneRenderer(res)))
 			{
 				engine.Run();
 			}
