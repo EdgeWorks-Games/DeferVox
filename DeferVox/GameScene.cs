@@ -18,7 +18,7 @@ namespace DeferVox
 				entity.Dispose();
 		}
 
-		internal void Update(TimeSpan delta)
+		public void Update(TimeSpan delta)
 		{
 			foreach (var entity in Entities)
 				entity.Update(delta);

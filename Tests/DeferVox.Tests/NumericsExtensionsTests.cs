@@ -6,7 +6,7 @@ namespace DeferVox.Tests
 	public class NumericsExtensionsTests
 	{
 		[Fact]
-		public void ToVector3_NormalValues_Converted()
+		public void ToVector3_Values_Converted()
 		{
 			var normalValues = new Vector3f(6, -52, 23);
 			var result = normalValues.ToVector3();

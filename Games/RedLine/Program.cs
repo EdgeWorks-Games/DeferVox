@@ -17,29 +17,10 @@ namespace RedLine
 			}
 		}
 
-		private static GameScene CreateMainMenuScene()
+		private static void CreateMainMenuScene(GameScene scene)
 		{
-			GameScene workingScene = null, finishedScene;
-			try
-			{
-				// Create our working scene
-				workingScene = new GameScene();
-
-				// Add the voxel map
-				workingScene.Entities.Add(new VoxelMapEntity());
-
-				// Mark the working scene as done
-				finishedScene = workingScene;
-				workingScene = null;
-			}
-			finally
-			{
-				// If an exception occured, clean up our working scene
-				if(workingScene != null)
-					workingScene.Dispose();
-			}
-
-			return finishedScene;
+			// Add the voxel map
+			scene.Entities.Add(new VoxelMapEntity());
 		}
 	}
 }

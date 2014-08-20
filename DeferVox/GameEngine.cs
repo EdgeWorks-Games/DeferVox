@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using OpenTK;
@@ -9,7 +10,7 @@ namespace DeferVox
 {
 	public sealed class GameEngine : IDisposable
 	{
-		private readonly Func<GameScene> _defaultSceneFactory;
+		private readonly Action<GameScene> _defaultSceneInitializer;
 		private readonly GameWindow _gameWindow;
 		private readonly Func<Size, ISceneRenderer> _rendererFactory;
 		private GameScene _currentScene;
@@ -17,10 +18,10 @@ namespace DeferVox
 
 		public GameEngine(
 			string friendlyName,
-			Func<GameScene> defaultSceneFactory,
+			Action<GameScene> defaultSceneInitializer,
 			Func<Size, ISceneRenderer> rendererFactory)
 		{
-			_defaultSceneFactory = defaultSceneFactory;
+			_defaultSceneInitializer = defaultSceneInitializer;
 			_rendererFactory = rendererFactory;
 
 			// Set up the game window
@@ -37,8 +38,11 @@ namespace DeferVox
 
 		public void Dispose()
 		{
+			// If the scene is loaded, dispose it
+			if (_currentScene != null)
+				_currentScene.Dispose();
+
 			_renderer.Dispose();
-			_currentScene.Dispose();
 			_gameWindow.Dispose();
 		}
 
@@ -48,7 +52,8 @@ namespace DeferVox
 			_renderer = _rendererFactory(_gameWindow.ClientSize);
 
 			// Create the default scene
-			_currentScene = _defaultSceneFactory();
+			_currentScene = new GameScene();
+			_defaultSceneInitializer(_currentScene);
 		}
 
 		private void _gameWindow_UpdateFrame(object sender, FrameEventArgs e)
