@@ -16,7 +16,7 @@ namespace DeferVox.Rendering
 			_UV = new Vector2(u, v);
 		}
 
-		public static readonly int SizeInBytes = Marshal.SizeOf(new PositionUvVertex());
+		public static readonly int SizeInBytes = Vector3.SizeInBytes + Vector2.SizeInBytes;
 
 		public static void SetVertexAttribPointers()
 		{

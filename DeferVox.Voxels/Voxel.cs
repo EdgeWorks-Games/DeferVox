@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using DeferVox.Rendering;
+﻿using DeferVox.Rendering;
 
 namespace DeferVox.Voxels
 {

@@ -7,9 +7,9 @@ uniform sampler2D TextureSampler;
 smooth in vec2 fragUV;
 
 // Output color, automatically gets picked up by OpenGL
-out vec3 gl_FragColor;
+out vec4 dv_FragColor;
 
 void main()
 {
-	gl_FragColor = texture(TextureSampler, fragUV).rgb;
+	dv_FragColor = texture(TextureSampler, fragUV);
 }
