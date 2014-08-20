@@ -19,6 +19,7 @@ namespace DeferVox.Rendering.Deferred
 			_textureShaderProgram = new ShaderProgram(
 				File.ReadAllText("Shaders/texture.vert.glsl"),
 				File.ReadAllText("Shaders/texture.frag.glsl"));
+
 			_grassTexture = new Texture2D("Textures/grass.png");
 		}
 
@@ -26,6 +27,7 @@ namespace DeferVox.Rendering.Deferred
 
 		public void Dispose()
 		{
+			_grassTexture.Dispose();
 			_colorShaderProgram.Dispose();
 			_textureShaderProgram.Dispose();
 		}

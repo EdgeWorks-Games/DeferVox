@@ -2,9 +2,8 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using GLPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
+using OpenTK.Graphics.OpenGL4;
+using GLPixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace DeferVox.Rendering
@@ -17,7 +16,7 @@ namespace DeferVox.Rendering
 		Bgra = 0x2
 	}
 
-	public sealed partial class Texture2D : IDisposable
+	public sealed class Texture2D : IDisposable
 	{
 		private readonly int _texture;
 
@@ -40,8 +39,6 @@ namespace DeferVox.Rendering
 		{
 			get { return (Options & TextureOptions.Bgra) == TextureOptions.Bgra; }
 		}
-
-		#region Initialization and Cleanup
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Texture2D" /> class
@@ -98,14 +95,12 @@ namespace DeferVox.Rendering
 				new Rectangle(0, 0, bitmap.Width, bitmap.Height),
 				ImageLockMode.ReadOnly,
 				PixelFormat.Format32bppArgb);
-
+			
 			// Generate and bind a new OpenGL texture
 			_texture = GL.GenTexture();
 			GL.BindTexture(TextureTarget.Texture2D, _texture);
 
 			// Configure the texture
-			GL.TexEnv(TextureEnvTarget.TextureEnv,
-				TextureEnvParameter.TextureEnvMode, (float)TextureEnvMode.Modulate);
 			GL.TexParameter(TextureTarget.Texture2D,
 				TextureParameterName.TextureMinFilter, (float)(UseFiltering ? TextureMinFilter.Linear : TextureMinFilter.Nearest));
 			GL.TexParameter(TextureTarget.Texture2D,
@@ -137,39 +132,10 @@ namespace DeferVox.Rendering
 			GC.SuppressFinalize(this);
 		}
 
-		/// <summary>
-		///     Releases the texture without deleting it.
-		/// </summary>
-		public void Release()
-		{
-			GC.SuppressFinalize(this);
-		}
-
 		~Texture2D()
 		{
-			Console.WriteLine("Warning: Leaked " + typeof(Texture2D) + "!");
+			Console.WriteLine("[RESOURCE LEAK] Texture finalizer invoked!");
 			Dispose();
-		}
-
-		#endregion
-
-		public void MapSubImage(IntPtr pixels)
-		{
-			GL.BindTexture(TextureTarget.Texture2D, _texture);
-			GL.TexSubImage2D(
-				TextureTarget.Texture2D, 0,
-				0, 0, Width, Height,
-				UseBgra ? GLPixelFormat.Bgra : GLPixelFormat.Rgba,
-				PixelType.UnsignedByte, pixels);
-			GL.BindTexture(TextureTarget.Texture2D, 0);
-		}
-
-		public void AttachToFramebuffer(int frameBuffer, FramebufferAttachment attachment)
-		{
-			GL.BindFramebuffer(FramebufferTarget.Framebuffer, frameBuffer);
-			GL.FramebufferTexture2D(
-				FramebufferTarget.Framebuffer, attachment,
-				TextureTarget.Texture2D, _texture, 0);
 		}
 
 		/// <summary>
@@ -180,33 +146,6 @@ namespace DeferVox.Rendering
 		public ActivationLifetime Activate()
 		{
 			return new ActivationLifetime(_texture);
-		}
-
-		public void Render(Vector2 position, Vector2 size)
-		{
-			using (Activate())
-			{
-				GL.Begin(PrimitiveType.Quads);
-				GL.Color3(Color.White);
-
-				// Left Bottom
-				GL.TexCoord2(0, 1);
-				GL.Vertex2(position.X, position.Y);
-
-				// Right Bottom
-				GL.TexCoord2(1, 1);
-				GL.Vertex2(position.X + size.X, position.Y);
-
-				// Right Top
-				GL.TexCoord2(1, 0);
-				GL.Vertex2(position.X + size.X, position.Y + size.Y);
-
-				// Left Top
-				GL.TexCoord2(0, 0);
-				GL.Vertex2(position.X, position.Y + size.Y);
-
-				GL.End();
-			}
 		}
 
 		public sealed class ActivationLifetime : IDisposable

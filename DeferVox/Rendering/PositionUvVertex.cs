@@ -16,26 +16,26 @@ namespace DeferVox.Rendering
 			_UV = new Vector2(u, v);
 		}
 
-		public static readonly int SizeInBytes = Vector3.SizeInBytes + Vector2.SizeInBytes;
+		public static readonly int SizeInBytes = Marshal.SizeOf(new PositionUvVertex());
 
 		public static void SetVertexAttribPointers()
 		{
 			GL.EnableVertexAttribArray(0);
 			GL.VertexAttribPointer( // Vertices
 				0, // attribute layout #0
-				Vector3.SizeInBytes, // size
+				3, // size in type
 				VertexAttribPointerType.Float, // type
 				false, // normalize this attribute?
-				SizeInBytes, // offset between values
+				SizeInBytes, // offset between start of vertex values (0 = tightly packed)
 				0); // start offset
 
 			GL.EnableVertexAttribArray(1);
 			GL.VertexAttribPointer( // Colors
 				1, // attribute layout #1
-				Vector2.SizeInBytes, // size
+				2, // size in type
 				VertexAttribPointerType.Float, // type
 				false, // normalize this attribute?
-				SizeInBytes, // offset between values
+				SizeInBytes, // offset between start of vertex values (0 = tightly packed)
 				Vector3.SizeInBytes); // start offset
 		}
 
