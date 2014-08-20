@@ -1,9 +1,9 @@
-﻿using System.Numerics;
+﻿using OpenTK;
 
 namespace DeferVox.Rendering
 {
 	public interface IRenderer
 	{
-		void RenderMesh(Vector3f position, Vector3f rotation, StaticMesh<PositionColorVertex> mesh);
+		void RenderMesh(Vector3 position, Vector3 rotation, StaticMesh<PositionColorVertex> mesh);
 	}
 }

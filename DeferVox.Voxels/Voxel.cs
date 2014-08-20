@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Numerics;
+﻿using System.Drawing;
 using DeferVox.Rendering;
 
-namespace DeferVox.Entities
+namespace DeferVox.Voxels
 {
 	internal struct Voxel
 	{
@@ -71,89 +67,6 @@ namespace DeferVox.Entities
 		public Voxel(bool isSolid)
 		{
 			IsSolid = isSolid;
-		}
-	}
-
-	internal class VoxelChunk
-	{
-		public const int Size = 16;
-
-		public Vector3I Position { get; set; }
-		public Voxel[][][] Voxels { get; set; }
-
-		public static VoxelChunk Generate(Vector3I position)
-		{
-			var voxels = new Voxel[Size][][];
-			for (var x = 0; x < Size; x++)
-			{
-				voxels[x] = new Voxel[Size][];
-
-				for (var y = 0; y < Size; y++)
-					voxels[x][y] = new Voxel[Size];
-
-				for (var z = 0; z < Size; z++)
-					voxels[x][0][z] = new Voxel(true);
-			}
-
-			return new VoxelChunk
-			{
-				Position = position,
-				Voxels = voxels
-			};
-		}
-	}
-
-	public sealed class VoxelMapEntity : IRenderableEntity
-	{
-		private readonly List<VoxelChunk> _chunks = new List<VoxelChunk>();
-		private readonly StaticMesh<PositionColorVertex> _voxelMesh;
-
-		public VoxelMapEntity()
-		{
-			_chunks.Add(VoxelChunk.Generate(new Vector3I(0, 0, 0)));
-			_chunks.Add(VoxelChunk.Generate(new Vector3I(-1, 0, 0)));
-			_chunks.Add(VoxelChunk.Generate(new Vector3I(0, 0, -1)));
-			_chunks.Add(VoxelChunk.Generate(new Vector3I(-1, 0, -1)));
-			_chunks[0].Voxels[1][1][1] = new Voxel(true);
-			Trace.TraceInformation("Generated {0} chunk{1}!", _chunks.Count, _chunks.Count == 1 ? "" : "s");
-
-			_voxelMesh = new StaticMesh<PositionColorVertex>(Voxel.Mesh, PositionColorVertex.SizeInBytes);
-		}
-
-		public void Dispose()
-		{
-			_voxelMesh.Dispose();
-		}
-
-		public void Update(TimeSpan delta)
-		{
-		}
-
-		public void Render(IRenderer renderer)
-		{
-			foreach (var chunk in _chunks)
-			{
-				for (var x = 0; x < VoxelChunk.Size; x++)
-				{
-					for (var y = 0; y < VoxelChunk.Size; y++)
-					{
-						for (var z = 0; z < VoxelChunk.Size; z++)
-						{
-							if (!chunk.Voxels[x][y][z].IsSolid)
-								continue;
-
-							// TODO: Make chunks have one big mesh instead of the block mesh many times
-							renderer.RenderMesh(
-								new Vector3f(
-									(chunk.Position.X*VoxelChunk.Size) + x,
-									(chunk.Position.Y*VoxelChunk.Size) + y,
-									(chunk.Position.Z*VoxelChunk.Size) + z),
-								Vector3f.Zero,
-								_voxelMesh);
-						}
-					}
-				}
-			}
 		}
 	}
 }

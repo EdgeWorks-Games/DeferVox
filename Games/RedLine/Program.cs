@@ -1,5 +1,5 @@
 ﻿using DeferVox;
-using DeferVox.Entities;
+using DeferVox.Voxels;
 using DeferVox.Rendering.Deferred;
 
 namespace RedLine
@@ -10,14 +10,14 @@ namespace RedLine
 		{
 			using (var engine = new GameEngine(
 				"Red Line",
-				CreateMainMenuScene,
+				InitializeMainMenuScene,
 				res => new DeferredRenderer(res)))
 			{
 				engine.Run();
 			}
 		}
 
-		private static void CreateMainMenuScene(GameScene scene)
+		private static void InitializeMainMenuScene(GameScene scene)
 		{
 			// Add the voxel map
 			scene.Entities.Add(new VoxelMapEntity());

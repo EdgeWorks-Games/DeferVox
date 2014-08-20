@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Numerics;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
@@ -36,10 +35,12 @@ namespace DeferVox.Rendering.Deferred
 			// Set up OpenGL settings
 			GL.Disable(EnableCap.Blend);
 			GL.Enable(EnableCap.DepthTest);
+
 			GL.Enable(EnableCap.CullFace);
 			GL.CullFace(CullFaceMode.Back);
 			// For some reason, it's culling the exact opposite faces so I flipped it, the correct order IS counter-clockwise
 			GL.FrontFace(FrontFaceDirection.Cw);
+
 			GL.Viewport(0, 0, _resolution.Width, _resolution.Height);
 
 			// Clear the default buffer
@@ -62,7 +63,7 @@ namespace DeferVox.Rendering.Deferred
 			}
 		}
 
-		public void RenderMesh(Vector3f position, Vector3f rotation, StaticMesh<PositionColorVertex> mesh)
+		public void RenderMesh(Vector3 position, Vector3 rotation, StaticMesh<PositionColorVertex> mesh)
 		{
 			// Set the shader settings
 			_colorShaderProgram.Use();
@@ -70,7 +71,7 @@ namespace DeferVox.Rendering.Deferred
 				Matrix4.CreateRotationX(rotation.X) *
 				Matrix4.CreateRotationY(rotation.Y) *
 				Matrix4.CreateRotationZ(rotation.Z) *
-				Matrix4.CreateTranslation(position.ToVector3());
+				Matrix4.CreateTranslation(position);
 			_colorShaderProgram.SetModelViewProjection(model * _pvMatrix);
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mesh.BufferId);
