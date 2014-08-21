@@ -1,6 +1,9 @@
-﻿using DeferVox;
-using DeferVox.Voxels;
+﻿using System.Drawing;
+using DeferVox;
+using DeferVox.BasicEntities;
 using DeferVox.Rendering.Deferred;
+using DeferVox.Voxels;
+using OpenTK;
 
 namespace RedLine
 {
@@ -19,7 +22,14 @@ namespace RedLine
 
 		private static void InitializeMainMenuScene(GameScene scene)
 		{
-			// Add the voxel map
+			var playerCamera = new Camera
+			{
+				Resolution = new Size(1280, 720),
+				VerticalFieldOfView = MathHelper.DegreesToRadians(70)
+			};
+			scene.Cameras.Add(playerCamera);
+
+			scene.Entities.Add(new PlayerEntity(new Vector3(0, 1.1f, 0), playerCamera));
 			scene.Entities.Add(new VoxelMapEntity());
 		}
 	}

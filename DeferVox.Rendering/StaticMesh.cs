@@ -7,6 +7,9 @@ namespace DeferVox.Rendering
 	{
 		public StaticMesh(TVertex[] mesh, int vertexSizeInBytes)
 		{
+			if (mesh == null)
+				throw new ArgumentNullException("mesh");
+
 			BufferId = GL.GenBuffer();
 			VertexCount = mesh.Length;
 

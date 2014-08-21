@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
@@ -76,7 +75,6 @@ namespace DeferVox
 		public void Run()
 		{
 			_gameWindow.Run();
-			Cursor.Clip = new Rectangle();
 		}
 	}
 }

@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeferVox.Voxels", "DeferVox
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeferVox.Rendering", "DeferVox.Rendering\DeferVox.Rendering.csproj", "{2933D29C-2661-44EB-9450-814F1CD3CA11}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeferVox.BasicEntities", "DeferVox.BasicEntities\DeferVox.BasicEntities.csproj", "{F017978B-3863-47EC-B401-C10ADBBC5062}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{2933D29C-2661-44EB-9450-814F1CD3CA11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2933D29C-2661-44EB-9450-814F1CD3CA11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2933D29C-2661-44EB-9450-814F1CD3CA11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F017978B-3863-47EC-B401-C10ADBBC5062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F017978B-3863-47EC-B401-C10ADBBC5062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F017978B-3863-47EC-B401-C10ADBBC5062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F017978B-3863-47EC-B401-C10ADBBC5062}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

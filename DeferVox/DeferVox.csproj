@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera.cs" />
     <Compile Include="ISceneRenderer.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="GameScene.cs" />

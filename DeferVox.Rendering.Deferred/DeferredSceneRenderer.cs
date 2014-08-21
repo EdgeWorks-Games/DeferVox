@@ -7,15 +7,12 @@ namespace DeferVox.Rendering.Deferred
 {
 	public sealed class DeferredSceneRenderer : ISceneRenderer
 	{
-		private readonly Matrix4 _projection;
 		private readonly DeferredRenderer _renderer = new DeferredRenderer();
 		private readonly Size _resolution;
-		private float _rot;
 
 		public DeferredSceneRenderer(Size resolution)
 		{
 			_resolution = resolution;
-			_projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(70), 1280f/720f, 0.1f, 100f);
 		}
 
 		public void Dispose()
@@ -40,19 +37,22 @@ namespace DeferVox.Rendering.Deferred
 			GL.ClearColor(Color.CornflowerBlue);
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-			// Multiply the projection and view in advance
-			_rot += 0.01f;
-			var view =
-				Matrix4.CreateRotationY(_rot)*
-				Matrix4.CreateTranslation(0, -5, -5)*
-				Matrix4.CreateRotationX(MathHelper.DegreesToRadians(40));
-			_renderer.PvMatrix = view*_projection;
-
-			// Render the currently active scene
-			// If this becomes a performance problem, cache the renderable entities
-			foreach (var entity in scene.Entities.OfType<IRenderableEntity>())
+			foreach (var camera in scene.Cameras)
 			{
-				entity.Render(_renderer);
+				var view =
+					Matrix4.CreateTranslation(-camera.Position)*
+					Matrix4.CreateRotationX(-camera.Rotation.X)*
+					Matrix4.CreateRotationY(-camera.Rotation.Y)*
+					Matrix4.CreateRotationZ(-camera.Rotation.Z);
+				var projection = Matrix4.CreatePerspectiveFieldOfView(camera.VerticalFieldOfView, camera.Ratio, 0.1f, 100f);
+				_renderer.PvMatrix = view*projection;
+
+				// Render the currently active scene
+				// If this becomes a performance problem, cache the renderable entities
+				foreach (var entity in scene.Entities.OfType<IRenderableEntity>())
+				{
+					entity.Render(_renderer);
+				}
 			}
 		}
 	}
