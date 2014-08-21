@@ -65,6 +65,8 @@ namespace DeferVox
 			if (Keyboard.GetState().IsKeyDown(Key.Escape))
 				_gameWindow.Exit();
 
+			Input.UpdateMousePosition();
+
 			// Update the currently active scene
 			_currentScene.Update(delta);
 		}

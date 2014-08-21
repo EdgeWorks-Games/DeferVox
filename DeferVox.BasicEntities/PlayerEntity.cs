@@ -37,8 +37,8 @@ namespace DeferVox.BasicEntities
 		{
 			var rotation = Rotation;
 
-			rotation.Y -= e.XDelta * 0.01f;
-			rotation.X -= e.YDelta * 0.01f;
+			rotation.Y -= e.XDelta * 0.005f;
+			rotation.X -= e.YDelta * 0.005f;
 			rotation.X = Math.Min(rotation.X, MathHelper.DegreesToRadians(80));
 			rotation.X = Math.Max(rotation.X, -MathHelper.DegreesToRadians(80));
 
