@@ -20,7 +20,7 @@ namespace DeferVox.Rendering.Deferred
 				File.ReadAllText("Shaders/texture.vert.glsl"),
 				File.ReadAllText("Shaders/texture.frag.glsl"));
 
-			_grassTexture = new Texture2D("Textures/grass.png");
+			_grassTexture = new Texture2D("Textures/grass1.png");
 		}
 
 		public Matrix4 PvMatrix { get; set; }
@@ -45,12 +45,11 @@ namespace DeferVox.Rendering.Deferred
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mesh.BufferId);
 			PositionUvVertex.SetVertexAttribPointers();
+			_grassTexture.Bind();
 
-			using (_grassTexture.Activate())
-			{
-				GL.DrawArrays(PrimitiveType.Triangles, 0, mesh.VertexCount);
-			}
+			GL.DrawArrays(PrimitiveType.Triangles, 0, mesh.VertexCount);
 
+			Texture2D.ClearBind();
 			PositionUvVertex.ClearVertexAttribPointers();
 		}
 	}

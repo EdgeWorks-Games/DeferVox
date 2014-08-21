@@ -8,14 +8,6 @@ using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace DeferVox.Rendering
 {
-	[Flags]
-	public enum TextureOptions
-	{
-		None = 0x0,
-		Filtering = 0x1,
-		Bgra = 0x2
-	}
-
 	public sealed class Texture2D : IDisposable
 	{
 		private readonly int _texture;
@@ -28,72 +20,23 @@ namespace DeferVox.Rendering
 			get { return new Size(Width, Height); }
 		}
 
-		public TextureOptions Options { get; private set; }
-
-		public bool UseFiltering
-		{
-			get { return (Options & TextureOptions.Filtering) == TextureOptions.Filtering; }
-		}
-
-		public bool UseBgra
-		{
-			get { return (Options & TextureOptions.Bgra) == TextureOptions.Bgra; }
-		}
-
-		/// <summary>
-		///     Initializes a new instance of the <see cref="Texture2D" /> class
-		///     using texture data from a file.
-		/// </summary>
-		/// <param name="path">The path to the image file to use for this Texture2D.</param>
-		/// <param name="options">The option flags to use for this texture.</param>
-		/// <exception cref="System.Exception">Can't find the image file!</exception>
-		public Texture2D(string path, TextureOptions options = TextureOptions.None)
-			: this(new Bitmap(path), options)
+		public Texture2D(string path)
+			: this(new Bitmap(path))
 		{
 		}
 
-		/// <summary>
-		///     Initializes a new instance of the <see cref="Texture2D" /> class
-		///     using empty texture data at the size given.
-		/// </summary>
-		/// <param name="width">The width.</param>
-		/// <param name="height">The height.</param>
-		/// <param name="options">The option flags to use for this texture.</param>
-		public Texture2D(int width, int height, TextureOptions options = TextureOptions.None)
-			: this(new Bitmap(width, height), options)
-		{
-		}
-
-		/// <summary>
-		///     Initializes a new instance of the <see cref="Texture2D" /> class
-		///     using empty texture data at the size given.
-		/// </summary>
-		/// <param name="size">The size.</param>
-		/// <param name="options">The option flags to use for this texture.</param>
-		public Texture2D(Size size, TextureOptions options = TextureOptions.None)
-			: this(new Bitmap(size.Width, size.Height), options)
-		{
-		}
-
-		/// <summary>
-		///     Initializes a new instance of the <see cref="Texture2D" /> class
-		///     using bitmap data given.
-		/// </summary>
-		/// <param name="bitmap">The bitmap data.</param>
-		/// <param name="options">The option flags to use for this texture.</param>
-		public Texture2D(Bitmap bitmap, TextureOptions options = TextureOptions.None)
+		public Texture2D(Bitmap bitmap)
 		{
 			Debug.Assert(bitmap != null);
 
 			// Save some metadata
-			Options = options;
 			Width = bitmap.Width;
 			Height = bitmap.Height;
 
 			// Load the data from the bitmap
 			var textureData = bitmap.LockBits(
 				new Rectangle(0, 0, bitmap.Width, bitmap.Height),
-				ImageLockMode.ReadOnly,
+				ImageLockMode.ReadOnly, 
 				PixelFormat.Format32bppArgb);
 			
 			// Generate and bind a new OpenGL texture
@@ -102,9 +45,9 @@ namespace DeferVox.Rendering
 
 			// Configure the texture
 			GL.TexParameter(TextureTarget.Texture2D,
-				TextureParameterName.TextureMinFilter, (float)(UseFiltering ? TextureMinFilter.Linear : TextureMinFilter.Nearest));
+				TextureParameterName.TextureMinFilter, (int)(TextureMinFilter.Nearest));
 			GL.TexParameter(TextureTarget.Texture2D,
-				TextureParameterName.TextureMagFilter, (float)(UseFiltering ? TextureMinFilter.Linear : TextureMinFilter.Nearest));
+				TextureParameterName.TextureMagFilter, (int)(TextureMinFilter.Nearest));
 
 			// Load the texture
 			GL.TexImage2D(
@@ -113,7 +56,7 @@ namespace DeferVox.Rendering
 				PixelInternalFormat.Rgba,
 				bitmap.Width, bitmap.Height,
 				0, // border
-				UseBgra ? GLPixelFormat.Bgra : GLPixelFormat.Rgba,
+				GLPixelFormat.Bgra,
 				PixelType.UnsignedByte,
 				textureData.Scan0);
 
@@ -138,29 +81,16 @@ namespace DeferVox.Rendering
 			Dispose();
 		}
 
-		/// <summary>
-		///     Sets the texture as active and creates a new lifetime
-		///     object to deactivate the texture once done.
-		/// </summary>
-		/// <returns>A new texture lifetime object that should be disposed when done.</returns>
-		public ActivationLifetime Activate()
+		public void Bind()
 		{
-			return new ActivationLifetime(_texture);
+			GL.ActiveTexture(TextureUnit.Texture0);
+			GL.BindTexture(TextureTarget.Texture2D, _texture);
 		}
 
-		public sealed class ActivationLifetime : IDisposable
+		public static void ClearBind()
 		{
-			public ActivationLifetime(int texture)
-			{
-				GL.ActiveTexture(TextureUnit.Texture0);
-				GL.BindTexture(TextureTarget.Texture2D, texture);
-			}
-
-			public void Dispose()
-			{
-				GL.ActiveTexture(TextureUnit.Texture0);
-				GL.BindTexture(TextureTarget.Texture2D, 0);
-			}
+			GL.ActiveTexture(TextureUnit.Texture0);
+			GL.BindTexture(TextureTarget.Texture2D, 0);
 		}
 	}
 }

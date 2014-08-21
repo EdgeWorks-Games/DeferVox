@@ -68,6 +68,7 @@
     <None Include="Shaders\color.vert.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Textures\grass.xcf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DeferVox.Rendering.Deferred\DeferVox.Rendering.Deferred.csproj">
@@ -84,7 +85,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Textures\grass.png">
+    <Content Include="Textures\grass1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Textures\grass2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Textures\test.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
