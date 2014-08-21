@@ -51,6 +51,10 @@
     <Compile Include="VoxelMapEntity.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DeferVox.Rendering\DeferVox.Rendering.csproj">
+      <Project>{2933d29c-2661-44eb-9450-814f1cd3ca11}</Project>
+      <Name>DeferVox.Rendering</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DeferVox\DeferVox.csproj">
       <Project>{5242d4ae-5a8b-4c44-bdbc-d0ef42c2d1a3}</Project>
       <Name>DeferVox</Name>

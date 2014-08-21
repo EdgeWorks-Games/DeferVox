@@ -46,18 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Rendering\IRenderableEntity.cs" />
-    <Compile Include="Rendering\PositionUvVertex.cs" />
-    <Compile Include="Rendering\StaticMesh.cs" />
-    <Compile Include="Rendering\IRenderer.cs" />
     <Compile Include="ISceneRenderer.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="GameScene.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rendering\ShaderExceptions.cs" />
-    <Compile Include="Rendering\ShaderProgram.cs" />
-    <Compile Include="Rendering\Texture2D.cs" />
     <Compile Include="Vector3I.cs" />
   </ItemGroup>
   <ItemGroup>

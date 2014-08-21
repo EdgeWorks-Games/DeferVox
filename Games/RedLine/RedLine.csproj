@@ -75,6 +75,10 @@
       <Project>{1E866250-934C-46FF-982F-2A6E51C439A4}</Project>
       <Name>DeferVox.Rendering.Deferred</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\DeferVox.Rendering\DeferVox.Rendering.csproj">
+      <Project>{2933D29C-2661-44EB-9450-814F1CD3CA11}</Project>
+      <Name>DeferVox.Rendering</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\DeferVox.Voxels\DeferVox.Voxels.csproj">
       <Project>{e71f16e3-64fa-4b8a-bab2-5e6ea58af0c2}</Project>
       <Name>DeferVox.Voxels</Name>
