@@ -40,9 +40,9 @@ namespace DeferVox.Rendering.Deferred
 			foreach (var camera in scene.Cameras)
 			{
 				var view =
-					Matrix4.CreateTranslation(-camera.Position)*
+					Matrix4.CreateTranslation(-camera.Position) *
+					Matrix4.CreateRotationY(-camera.Rotation.Y) *
 					Matrix4.CreateRotationX(-camera.Rotation.X)*
-					Matrix4.CreateRotationY(-camera.Rotation.Y)*
 					Matrix4.CreateRotationZ(-camera.Rotation.Z);
 				var projection = Matrix4.CreatePerspectiveFieldOfView(camera.VerticalFieldOfView, camera.Ratio, 0.1f, 100f);
 				_renderer.PvMatrix = view*projection;

@@ -6,14 +6,16 @@ namespace DeferVox.BasicEntities
 {
 	public sealed class PlayerEntity : IRenderableEntity
 	{
-		public PlayerEntity(Vector3 position, Camera camera)
+		public PlayerEntity(GameInput input, Vector3 position, Camera camera)
 		{
 			Position = position;
 			Camera = camera;
+
+			input.AimChange += input_AimChange;
 		}
 
 		public Vector3 Position { get; set; }
-		public float Rotation { get; set; }
+		public Vector3 Rotation { get; set; }
 		public Camera Camera { get; set; }
 
 		public void Dispose()
@@ -22,14 +24,25 @@ namespace DeferVox.BasicEntities
 
 		public void Update(TimeSpan delta)
 		{
-			Rotation += (float) delta.TotalSeconds*1.0f;
-
 			Camera.Position = Position + new Vector3(0, 1.5f, 0);
-			Camera.Rotation = new Vector3(0, Rotation, 0);
+			Camera.Rotation = new Vector3(Rotation.X, Rotation.Y, 0);
 		}
 
 		public void Render(IRenderer renderer)
 		{
+			// Perhaps here render the player in case of reflections and shadows?
+		}
+
+		private void input_AimChange(object sender, AimEventArgs e)
+		{
+			var rotation = Rotation;
+
+			rotation.Y -= e.XDelta * 0.01f;
+			rotation.X -= e.YDelta * 0.01f;
+			rotation.X = Math.Min(rotation.X, MathHelper.DegreesToRadians(80));
+			rotation.X = Math.Max(rotation.X, -MathHelper.DegreesToRadians(80));
+
+			Rotation = rotation;
 		}
 	}
 }

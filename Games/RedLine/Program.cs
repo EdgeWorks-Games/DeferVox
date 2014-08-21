@@ -20,7 +20,7 @@ namespace RedLine
 			}
 		}
 
-		private static void InitializeMainMenuScene(GameScene scene)
+		private static void InitializeMainMenuScene(GameScene scene, GameEngine engine)
 		{
 			var playerCamera = new Camera
 			{
@@ -29,7 +29,7 @@ namespace RedLine
 			};
 			scene.Cameras.Add(playerCamera);
 
-			scene.Entities.Add(new PlayerEntity(new Vector3(0, 1.1f, 0), playerCamera));
+			scene.Entities.Add(new PlayerEntity(engine.Input, new Vector3(0, 1.1f, 0), playerCamera));
 			scene.Entities.Add(new VoxelMapEntity());
 		}
 	}

@@ -8,7 +8,7 @@ namespace DeferVox
 {
 	public sealed class GameEngine : IDisposable
 	{
-		private readonly Action<GameScene> _defaultSceneInitializer;
+		private readonly Action<GameScene, GameEngine> _defaultSceneInitializer;
 		private readonly GameWindow _gameWindow;
 		private readonly Func<Size, ISceneRenderer> _rendererFactory;
 		private GameScene _currentScene;
@@ -16,7 +16,7 @@ namespace DeferVox
 
 		public GameEngine(
 			string friendlyName,
-			Action<GameScene> defaultSceneInitializer,
+			Action<GameScene, GameEngine> defaultSceneInitializer,
 			Func<Size, ISceneRenderer> rendererFactory)
 		{
 			_defaultSceneInitializer = defaultSceneInitializer;
@@ -29,10 +29,14 @@ namespace DeferVox
 				friendlyName,
 				GameWindowFlags.FixedWindow);
 
+			Input = new GameInput(_gameWindow);
+
 			_gameWindow.Load += _gameWindow_Load;
 			_gameWindow.RenderFrame += _gameWindow_RenderFrame;
 			_gameWindow.UpdateFrame += _gameWindow_UpdateFrame;
 		}
+
+		public GameInput Input { get; private set; }
 
 		public void Dispose()
 		{
@@ -51,7 +55,7 @@ namespace DeferVox
 
 			// Create the default scene
 			_currentScene = new GameScene();
-			_defaultSceneInitializer(_currentScene);
+			_defaultSceneInitializer(_currentScene, this);
 		}
 
 		private void _gameWindow_UpdateFrame(object sender, FrameEventArgs e)
