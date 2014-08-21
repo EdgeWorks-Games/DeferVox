@@ -1,10 +1,11 @@
 ﻿using System;
+using DeferVox.Scenes;
 using Moq;
 using Xunit;
 
-namespace DeferVox.Tests
+namespace DeferVox.Tests.Scenes
 {
-	public sealed class GameSceneTests : IDisposable
+	class GameSceneTests : IDisposable
 	{
 		private readonly GameScene _gameScene = new GameScene();
 

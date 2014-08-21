@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F017978B-3863-47EC-B401-C10ADBBC5062}</ProjectGuid>
+    <ProjectGuid>{27112528-5B64-4E41-BF17-4636BC7BA2C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DeferVox.BasicEntities</RootNamespace>
@@ -48,17 +48,25 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DeferVox.Input\DeferVox.Input.csproj">
+      <Project>{715c2dd2-e1bb-4ed1-b27b-6e57b2d1274a}</Project>
+      <Name>DeferVox.Input</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DeferVox.Rendering\DeferVox.Rendering.csproj">
       <Project>{2933d29c-2661-44eb-9450-814f1cd3ca11}</Project>
       <Name>DeferVox.Rendering</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeferVox.Scenes\DeferVox.Scenes.csproj">
+      <Project>{d1fa87db-5202-486f-b037-1334324653ba}</Project>
+      <Name>DeferVox.Scenes</Name>
     </ProjectReference>
     <ProjectReference Include="..\DeferVox\DeferVox.csproj">
       <Project>{5242d4ae-5a8b-4c44-bdbc-d0ef42c2d1a3}</Project>
       <Name>DeferVox</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

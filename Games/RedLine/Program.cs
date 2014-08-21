@@ -1,26 +1,40 @@
 ﻿using System.Drawing;
 using DeferVox;
 using DeferVox.BasicEntities;
+using DeferVox.Input;
 using DeferVox.Rendering.Deferred;
+using DeferVox.Scenes;
 using DeferVox.Voxels;
 using OpenTK;
 
 namespace RedLine
 {
-	internal static class Program
+	internal class Program
 	{
+		private InputGameComponent _input;
+
 		private static void Main()
 		{
-			using (var engine = new GameEngine(
-				"Red Line",
+			var program = new Program();
+			program.Run();
+		}
+
+		private void Run()
+		{
+			using (var engine = new GameEngine("Red Line"))
+			using (var sceneManager = new SceneManagerGameComponent(
 				InitializeMainMenuScene,
-				res => new DeferredSceneRenderer(res)))
+				new DeferredSceneRenderer(new Size(1280, 720))))
+			using (_input = new InputGameComponent(engine))
 			{
+				engine.Components.Add(sceneManager);
+				engine.Components.Add(_input);
+
 				engine.Run();
 			}
 		}
 
-		private static void InitializeMainMenuScene(GameScene scene, GameEngine engine)
+		private void InitializeMainMenuScene(GameScene scene)
 		{
 			var playerCamera = new Camera
 			{
@@ -29,7 +43,7 @@ namespace RedLine
 			};
 			scene.Cameras.Add(playerCamera);
 
-			scene.Entities.Add(new PlayerEntity(engine.Input, new Vector3(0, 1.1f, 0), playerCamera));
+			scene.Entities.Add(new PlayerEntity(_input, new Vector3(0, 1.1f, 0), playerCamera));
 			scene.Entities.Add(new VoxelMapEntity());
 		}
 	}

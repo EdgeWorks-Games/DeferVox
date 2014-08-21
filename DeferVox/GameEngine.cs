@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Drawing;
+using System.Collections.ObjectModel;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
@@ -8,79 +8,67 @@ namespace DeferVox
 {
 	public sealed class GameEngine : IDisposable
 	{
-		private readonly Action<GameScene, GameEngine> _defaultSceneInitializer;
-		private readonly GameWindow _gameWindow;
-		private readonly Func<Size, ISceneRenderer> _rendererFactory;
-		private GameScene _currentScene;
-		private ISceneRenderer _renderer;
-
-		public GameEngine(
-			string friendlyName,
-			Action<GameScene, GameEngine> defaultSceneInitializer,
-			Func<Size, ISceneRenderer> rendererFactory)
+		public GameEngine(string friendlyName)
 		{
-			_defaultSceneInitializer = defaultSceneInitializer;
-			_rendererFactory = rendererFactory;
+			Components = new Collection<IGameComponent>();
 
 			// Set up the game window
-			_gameWindow = new GameWindow(
+			GameWindow = new GameWindow(
 				1280, 720,
 				new GraphicsMode(32, 16, 0, 0), // Deferred rendering so no samples
 				friendlyName,
 				GameWindowFlags.FixedWindow);
 
-			Input = new GameInput(_gameWindow);
-
-			_gameWindow.Load += _gameWindow_Load;
-			_gameWindow.RenderFrame += _gameWindow_RenderFrame;
-			_gameWindow.UpdateFrame += _gameWindow_UpdateFrame;
+			GameWindow.Load += GameWindow_Load;
+			GameWindow.RenderFrame += GameWindow_RenderFrame;
+			GameWindow.UpdateFrame += GameWindow_UpdateFrame;
 		}
 
-		public GameInput Input { get; private set; }
+		public GameWindow GameWindow { get; private set; }
+		public Collection<IGameComponent> Components { get; private set; }
 
 		public void Dispose()
 		{
-			// If the scene is loaded, dispose it
-			if (_currentScene != null)
-				_currentScene.Dispose();
-
-			_renderer.Dispose();
-			_gameWindow.Dispose();
+			GameWindow.Dispose();
 		}
 
-		private void _gameWindow_Load(object sender, EventArgs e)
+		private void GameWindow_Load(object sender, EventArgs e)
 		{
-			// Set up rendering
-			_renderer = _rendererFactory(_gameWindow.ClientSize);
-
-			// Create the default scene
-			_currentScene = new GameScene();
-			_defaultSceneInitializer(_currentScene, this);
+			foreach (var component in Components)
+				component.Load();
 		}
 
-		private void _gameWindow_UpdateFrame(object sender, FrameEventArgs e)
+		private void GameWindow_UpdateFrame(object sender, FrameEventArgs e)
 		{
 			var delta = TimeSpan.FromSeconds(Math.Min(e.Time, 0.4));
 
+#if DEBUG
+			// Debug key for halting execution
 			if (Keyboard.GetState().IsKeyDown(Key.Escape))
-				_gameWindow.Exit();
+				GameWindow.Exit();
+#endif
 
-			Input.UpdateMousePosition();
+			// Perform work that has to be done before the world state can be updated
+			// For example: input and network packet processing
+			foreach (var component in Components)
+				component.PreUpdate();
 
-			// Update the currently active scene
-			_currentScene.Update(delta);
+			// Update the world state
+			foreach (var component in Components)
+				component.Update(delta);
 		}
 
-		private void _gameWindow_RenderFrame(object sender, FrameEventArgs e)
+		private void GameWindow_RenderFrame(object sender, FrameEventArgs e)
 		{
-			_renderer.RenderScene(_currentScene);
+			foreach (var component in Components)
+				component.Render();
 
-			_gameWindow.SwapBuffers();
+			GameWindow.SwapBuffers();
 		}
 
 		public void Run()
 		{
-			_gameWindow.Run();
+			GameWindow.Run();
 		}
 	}
 }

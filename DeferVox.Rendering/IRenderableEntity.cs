@@ -1,4 +1,6 @@
-﻿namespace DeferVox.Rendering
+﻿using DeferVox.Scenes;
+
+namespace DeferVox.Rendering
 {
 	public interface IRenderableEntity : IEntity
 	{

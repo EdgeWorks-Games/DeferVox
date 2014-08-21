@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Linq;
+using DeferVox.Scenes;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 

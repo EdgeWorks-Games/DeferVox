@@ -1,4 +1,5 @@
 ﻿using System;
+using DeferVox.Input;
 using DeferVox.Rendering;
 using OpenTK;
 
@@ -6,12 +7,12 @@ namespace DeferVox.BasicEntities
 {
 	public sealed class PlayerEntity : IRenderableEntity
 	{
-		public PlayerEntity(GameInput input, Vector3 position, Camera camera)
+		public PlayerEntity(InputGameComponent component, Vector3 position, Camera camera)
 		{
 			Position = position;
 			Camera = camera;
 
-			input.AimChange += input_AimChange;
+			component.AimChange += input_AimChange;
 		}
 
 		public Vector3 Position { get; set; }
@@ -37,8 +38,8 @@ namespace DeferVox.BasicEntities
 		{
 			var rotation = Rotation;
 
-			rotation.Y -= e.XDelta * 0.005f;
-			rotation.X -= e.YDelta * 0.005f;
+			rotation.Y -= e.XDelta * 0.0015f;
+			rotation.X -= e.YDelta * 0.0015f;
 			rotation.X = Math.Min(rotation.X, MathHelper.DegreesToRadians(80));
 			rotation.X = Math.Max(rotation.X, -MathHelper.DegreesToRadians(80));
 

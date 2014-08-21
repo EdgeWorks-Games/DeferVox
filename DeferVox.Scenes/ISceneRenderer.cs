@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DeferVox
+namespace DeferVox.Scenes
 {
 	public interface ISceneRenderer : IDisposable
 	{

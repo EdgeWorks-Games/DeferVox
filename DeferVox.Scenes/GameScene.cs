@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 
-namespace DeferVox
+namespace DeferVox.Scenes
 {
 	public sealed class GameScene : IDisposable
 	{

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DeferVox.BasicEntities")]
+[assembly: AssemblyTitle("DeferVox.Input")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DeferVox.BasicEntities")]
+[assembly: AssemblyProduct("DeferVox.Input")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6f467082-0186-4305-88f9-86b8b5c64096")]
+[assembly: Guid("35075956-af7e-4cf6-8f28-ba85e0a61df2")]
 
 // Version information for an assembly consists of the following four values:
 //

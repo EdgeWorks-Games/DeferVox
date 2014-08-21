@@ -58,14 +58,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameSceneTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenes\GameSceneTests.cs" />
     <Compile Include="Vector3ITests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DeferVox.Scenes\DeferVox.Scenes.csproj">
+      <Project>{d1fa87db-5202-486f-b037-1334324653ba}</Project>
+      <Name>DeferVox.Scenes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\DeferVox\DeferVox.csproj">
       <Project>{5242d4ae-5a8b-4c44-bdbc-d0ef42c2d1a3}</Project>
       <Name>DeferVox</Name>
