@@ -49,7 +49,7 @@
     <Compile Include="IEntity.cs" />
     <Compile Include="ISceneRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SceneManagerGameComponent.cs" />
+    <Compile Include="ScenesGameComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DeferVox\DeferVox.csproj">

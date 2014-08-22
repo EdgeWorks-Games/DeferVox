@@ -5,13 +5,25 @@ using Xunit;
 
 namespace DeferVox.Tests.Scenes
 {
-	class GameSceneTests : IDisposable
+	public class GameSceneTests : IDisposable
 	{
 		private readonly GameScene _gameScene = new GameScene();
 
 		public void Dispose()
 		{
 			_gameScene.Dispose();
+		}
+
+		[Fact]
+		public void Dispose_Entities_Disposed()
+		{
+			var mock = new Mock<IEntity>();
+			mock.Setup(e => e.Dispose()).Verifiable();
+
+			_gameScene.Entities.Add(mock.Object);
+			_gameScene.Dispose();
+
+			mock.Verify(e => e.Dispose(), Times.Once);
 		}
 
 		[Fact]
@@ -34,18 +46,6 @@ namespace DeferVox.Tests.Scenes
 			var delta = TimeSpan.FromSeconds(1.5);
 
 			_gameScene.Update(delta);
-		}
-
-		[Fact]
-		public void Dispose_Entities_Disposed()
-		{
-			var mock = new Mock<IEntity>();
-			mock.Setup(e => e.Dispose()).Verifiable();
-
-			_gameScene.Entities.Add(mock.Object);
-			_gameScene.Dispose();
-
-			mock.Verify(e => e.Dispose(), Times.Once);
 		}
 	}
 }

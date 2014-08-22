@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenes\GameSceneTests.cs" />
+    <Compile Include="Scenes\ScenesGameComponentTests.cs" />
     <Compile Include="Vector3ITests.cs" />
   </ItemGroup>
   <ItemGroup>

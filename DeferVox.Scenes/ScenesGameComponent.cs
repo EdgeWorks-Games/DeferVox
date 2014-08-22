@@ -2,13 +2,13 @@
 
 namespace DeferVox.Scenes
 {
-	public sealed class SceneManagerGameComponent : IGameComponent, IDisposable
+	public sealed class ScenesGameComponent : IGameComponent, IDisposable
 	{
 		private readonly Action<GameScene> _defaultSceneInitializer;
 		private readonly ISceneRenderer _sceneRenderer;
 		private GameScene _currentScene;
 
-		public SceneManagerGameComponent(
+		public ScenesGameComponent(
 			Action<GameScene> defaultSceneInitializer,
 			ISceneRenderer sceneRenderer)
 		{
@@ -38,6 +38,9 @@ namespace DeferVox.Scenes
 
 		public void Update(TimeSpan delta)
 		{
+			if (_currentScene == null)
+				throw new InvalidOperationException("Cannot Update before a scene has been loaded. Call Load to load the default scene.");
+
 			_currentScene.Update(delta);
 		}
 

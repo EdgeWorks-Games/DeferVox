@@ -22,7 +22,7 @@ namespace RedLine
 		private void Run()
 		{
 			using (var engine = new GameEngine("Red Line"))
-			using (var sceneManager = new SceneManagerGameComponent(
+			using (var sceneManager = new ScenesGameComponent(
 				InitializeMainMenuScene,
 				new DeferredSceneRenderer(new Size(1280, 720))))
 			using (_input = new InputGameComponent(engine))
