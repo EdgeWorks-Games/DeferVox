@@ -2,7 +2,7 @@
 
 namespace DeferVox.Scenes
 {
-	public class SceneManagerGameComponent : IGameComponent, IDisposable
+	public sealed class SceneManagerGameComponent : IGameComponent, IDisposable
 	{
 		private readonly Action<GameScene> _defaultSceneInitializer;
 		private readonly ISceneRenderer _sceneRenderer;

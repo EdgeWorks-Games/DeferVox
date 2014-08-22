@@ -2,6 +2,7 @@
 using DeferVox.Input;
 using DeferVox.Rendering;
 using OpenTK;
+using OpenTK.Input;
 
 namespace DeferVox.BasicEntities
 {
@@ -25,6 +26,26 @@ namespace DeferVox.BasicEntities
 
 		public void Update(TimeSpan delta)
 		{
+			var forward = new Vector3(
+				(float)-Math.Sin(Rotation.Y),
+				0,
+				(float)-Math.Cos(Rotation.Y));
+			var right = new Vector3(
+				(float)-Math.Sin(Rotation.Y-MathHelper.PiOver2),
+				0,
+				(float)-Math.Cos(Rotation.Y-MathHelper.PiOver2));
+
+			var keyboard = Keyboard.GetState();
+			if (keyboard.IsKeyDown(Key.W))
+				Position += forward * (float)delta.TotalSeconds * 2.0f;
+			if (keyboard.IsKeyDown(Key.S))
+				Position -= forward * (float)delta.TotalSeconds * 2.0f;
+
+			if (keyboard.IsKeyDown(Key.D))
+				Position += right * (float)delta.TotalSeconds * 2.0f;
+			if (keyboard.IsKeyDown(Key.A))
+				Position -= right * (float)delta.TotalSeconds * 2.0f;
+
 			Camera.Position = Position + new Vector3(0, 1.5f, 0);
 			Camera.Rotation = new Vector3(Rotation.X, Rotation.Y, 0);
 		}
