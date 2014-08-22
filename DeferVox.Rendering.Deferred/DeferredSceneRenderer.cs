@@ -6,6 +6,8 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace DeferVox.Rendering.Deferred
 {
+	// TODO: Not actually deferred yet
+
 	public sealed class DeferredSceneRenderer : ISceneRenderer
 	{
 		private readonly DeferredRenderer _renderer = new DeferredRenderer();

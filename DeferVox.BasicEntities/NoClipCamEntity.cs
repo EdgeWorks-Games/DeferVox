@@ -6,9 +6,9 @@ using OpenTK.Input;
 
 namespace DeferVox.BasicEntities
 {
-	public sealed class PlayerEntity : IRenderableEntity
+	public sealed class NoClipCamEntity : IRenderableEntity
 	{
-		public PlayerEntity(InputGameComponent component, Vector3 position, Camera camera)
+		public NoClipCamEntity(InputGameComponent component, Vector3 position, Camera camera)
 		{
 			Position = position;
 			Camera = camera;
@@ -26,20 +26,20 @@ namespace DeferVox.BasicEntities
 
 		public void Update(TimeSpan delta)
 		{
-			var forward = new Vector3(
-				(float)-Math.Sin(Rotation.Y),
-				0,
-				(float)-Math.Cos(Rotation.Y));
-			var right = new Vector3(
-				(float)-Math.Sin(Rotation.Y-MathHelper.PiOver2),
-				0,
-				(float)-Math.Cos(Rotation.Y-MathHelper.PiOver2));
+			var rotationMatrix =
+				Matrix4.CreateRotationX(Rotation.X)*
+				Matrix4.CreateRotationY(Rotation.Y)*
+				Matrix4.CreateRotationZ(Rotation.Z);
+
+			var backwards = Vector3.Transform(Vector3.UnitZ, rotationMatrix);
+			var right = Vector3.Transform(Vector3.UnitX, rotationMatrix);
 
 			var keyboard = Keyboard.GetState();
-			if (keyboard.IsKeyDown(Key.W))
-				Position += forward * (float)delta.TotalSeconds * 2.0f;
+
 			if (keyboard.IsKeyDown(Key.S))
-				Position -= forward * (float)delta.TotalSeconds * 2.0f;
+				Position += backwards * (float)delta.TotalSeconds * 2.0f;
+			if (keyboard.IsKeyDown(Key.W))
+				Position -= backwards * (float)delta.TotalSeconds * 2.0f;
 
 			if (keyboard.IsKeyDown(Key.D))
 				Position += right * (float)delta.TotalSeconds * 2.0f;
@@ -61,8 +61,8 @@ namespace DeferVox.BasicEntities
 
 			rotation.Y -= e.XDelta * 0.0015f;
 			rotation.X -= e.YDelta * 0.0015f;
-			rotation.X = Math.Min(rotation.X, MathHelper.DegreesToRadians(80));
-			rotation.X = Math.Max(rotation.X, -MathHelper.DegreesToRadians(80));
+			rotation.X = Math.Min(rotation.X, MathHelper.DegreesToRadians(90));
+			rotation.X = Math.Max(rotation.X, -MathHelper.DegreesToRadians(90));
 
 			Rotation = rotation;
 		}
