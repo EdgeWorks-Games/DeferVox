@@ -42,7 +42,11 @@ namespace RedLine
 			};
 			scene.Cameras.Add(playerCamera);
 
-			scene.Entities.Add(new NoClipCamEntity(_input, new Vector3(0, 1.1f, 0), playerCamera));
+			scene.Entities.Add(new NoClipCamEntity(_input, new Vector3(0, 1.1f, 0), playerCamera)
+			{
+				Speed = 3f,
+				FastSpeed = 6f
+			});
 			scene.Entities.Add(new VoxelMapEntity());
 		}
 	}

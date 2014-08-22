@@ -16,9 +16,18 @@ namespace DeferVox.BasicEntities
 			component.AimChange += input_AimChange;
 		}
 
+		public NoClipCamEntity()
+		{
+			// Default values, once C# 6.0 rolls around we can do this inline
+			Speed = 1.0f;
+		}
+
 		public Vector3 Position { get; set; }
 		public Vector3 Rotation { get; set; }
 		public Camera Camera { get; set; }
+
+		public float Speed { get; set; }
+		public float FastSpeed { get; set; }
 
 		public void Dispose()
 		{
@@ -35,16 +44,19 @@ namespace DeferVox.BasicEntities
 			var right = Vector3.Transform(Vector3.UnitX, rotationMatrix);
 
 			var keyboard = Keyboard.GetState();
+			var targetDirection = new Vector3();
 
 			if (keyboard.IsKeyDown(Key.S))
-				Position += backwards*(float) delta.TotalSeconds*2.0f;
+				targetDirection += backwards;
 			if (keyboard.IsKeyDown(Key.W))
-				Position -= backwards*(float) delta.TotalSeconds*2.0f;
-
+				targetDirection -= backwards;
 			if (keyboard.IsKeyDown(Key.D))
-				Position += right*(float) delta.TotalSeconds*2.0f;
+				targetDirection += right;
 			if (keyboard.IsKeyDown(Key.A))
-				Position -= right*(float) delta.TotalSeconds*2.0f;
+				targetDirection -= right;
+
+			targetDirection.NormalizeFast();
+			Position += delta.PerSecond(targetDirection*(keyboard.IsKeyDown(Key.ShiftLeft) ? FastSpeed : Speed));
 
 			Camera.Position = Position + new Vector3(0, 1.5f, 0);
 			Camera.Rotation = new Vector3(Rotation.X, Rotation.Y, 0);

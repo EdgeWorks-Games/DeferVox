@@ -50,6 +50,7 @@
     <Compile Include="IGameComponent.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeSpanExtensions.cs" />
     <Compile Include="Vector3I.cs" />
   </ItemGroup>
   <ItemGroup>
