@@ -2,7 +2,7 @@
 
 namespace DeferVox.Scenes
 {
-	public interface ISceneRenderer : IDisposable
+	public interface ISceneRenderer
 	{
 		void RenderScene(GameScene scene);
 	}

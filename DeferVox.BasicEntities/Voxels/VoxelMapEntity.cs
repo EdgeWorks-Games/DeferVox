@@ -4,7 +4,7 @@ using System.Diagnostics;
 using DeferVox.Rendering;
 using OpenTK;
 
-namespace DeferVox.Voxels
+namespace DeferVox.BasicEntities.Voxels
 {
 	public sealed class VoxelMapEntity : IRenderableEntity
 	{

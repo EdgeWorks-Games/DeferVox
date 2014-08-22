@@ -1,10 +1,10 @@
 ﻿using System.Drawing;
 using DeferVox;
 using DeferVox.BasicEntities;
+using DeferVox.BasicEntities.Voxels;
 using DeferVox.Input;
 using DeferVox.Rendering.Deferred;
 using DeferVox.Scenes;
-using DeferVox.Voxels;
 using OpenTK;
 
 namespace RedLine
@@ -22,9 +22,8 @@ namespace RedLine
 		private void Run()
 		{
 			using (var engine = new GameEngine("Red Line"))
-			using (var sceneManager = new ScenesGameComponent(
-				InitializeMainMenuScene,
-				new DeferredSceneRenderer(new Size(1280, 720))))
+			using (var sceneRenderer = new DeferredSceneRenderer())
+			using (var sceneManager = new ScenesGameComponent(InitializeMainMenuScene, sceneRenderer))
 			using (_input = new InputGameComponent(engine))
 			{
 				engine.Components.Add(sceneManager);

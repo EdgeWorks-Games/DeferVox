@@ -68,7 +68,7 @@
     <None Include="Shaders\color.vert.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Textures\grass.xcf" />
+    <None Include="Textures\grass1.xcf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DeferVox.BasicEntities\DeferVox.BasicEntities.csproj">
@@ -91,10 +91,6 @@
       <Project>{d1fa87db-5202-486f-b037-1334324653ba}</Project>
       <Name>DeferVox.Scenes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DeferVox.Voxels\DeferVox.Voxels.csproj">
-      <Project>{e71f16e3-64fa-4b8a-bab2-5e6ea58af0c2}</Project>
-      <Name>DeferVox.Voxels</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\DeferVox\DeferVox.csproj">
       <Project>{5242D4AE-5A8B-4C44-BDBC-D0EF42C2D1A3}</Project>
       <Name>DeferVox</Name>
@@ -102,9 +98,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Textures\grass1.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Textures\grass2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Textures\test.png">

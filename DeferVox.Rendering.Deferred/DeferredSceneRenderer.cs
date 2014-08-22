@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Linq;
 using DeferVox.Scenes;
 using OpenTK;
@@ -8,15 +9,9 @@ namespace DeferVox.Rendering.Deferred
 {
 	// TODO: Not actually deferred yet
 
-	public sealed class DeferredSceneRenderer : ISceneRenderer
+	public sealed class DeferredSceneRenderer : ISceneRenderer, IDisposable
 	{
 		private readonly DeferredRenderer _renderer = new DeferredRenderer();
-		private readonly Size _resolution;
-
-		public DeferredSceneRenderer(Size resolution)
-		{
-			_resolution = resolution;
-		}
 
 		public void Dispose()
 		{
@@ -34,14 +29,17 @@ namespace DeferVox.Rendering.Deferred
 			// For some reason, it's culling the exact opposite faces so I flipped it, the correct order IS counter-clockwise
 			GL.FrontFace(FrontFaceDirection.Cw);
 
-			GL.Viewport(0, 0, _resolution.Width, _resolution.Height);
-
 			// Clear the default buffer
 			GL.ClearColor(Color.CornflowerBlue);
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			GL.Clear(ClearBufferMask.ColorBufferBit);
 
 			foreach (var camera in scene.Cameras)
 			{
+				GL.Clear(ClearBufferMask.DepthBufferBit);
+				GL.Viewport(
+					camera.ScreenPosition.X, camera.ScreenPosition.Y,
+					camera.Resolution.Width, camera.Resolution.Height);
+
 				var view =
 					Matrix4.CreateTranslation(-camera.Position) *
 					Matrix4.CreateRotationY(-camera.Rotation.Y) *

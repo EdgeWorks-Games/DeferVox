@@ -37,14 +37,14 @@ namespace DeferVox.BasicEntities
 			var keyboard = Keyboard.GetState();
 
 			if (keyboard.IsKeyDown(Key.S))
-				Position += backwards * (float)delta.TotalSeconds * 2.0f;
+				Position += backwards*(float) delta.TotalSeconds*2.0f;
 			if (keyboard.IsKeyDown(Key.W))
-				Position -= backwards * (float)delta.TotalSeconds * 2.0f;
+				Position -= backwards*(float) delta.TotalSeconds*2.0f;
 
 			if (keyboard.IsKeyDown(Key.D))
-				Position += right * (float)delta.TotalSeconds * 2.0f;
+				Position += right*(float) delta.TotalSeconds*2.0f;
 			if (keyboard.IsKeyDown(Key.A))
-				Position -= right * (float)delta.TotalSeconds * 2.0f;
+				Position -= right*(float) delta.TotalSeconds*2.0f;
 
 			Camera.Position = Position + new Vector3(0, 1.5f, 0);
 			Camera.Rotation = new Vector3(Rotation.X, Rotation.Y, 0);
@@ -59,8 +59,8 @@ namespace DeferVox.BasicEntities
 		{
 			var rotation = Rotation;
 
-			rotation.Y -= e.XDelta * 0.0015f;
-			rotation.X -= e.YDelta * 0.0015f;
+			rotation.Y -= e.XDelta*0.0015f;
+			rotation.X -= e.YDelta*0.0015f;
 			rotation.X = Math.Min(rotation.X, MathHelper.DegreesToRadians(90));
 			rotation.X = Math.Max(rotation.X, -MathHelper.DegreesToRadians(90));
 

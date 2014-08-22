@@ -21,8 +21,6 @@ namespace DeferVox.Scenes
 			// If the scene is loaded, dispose it
 			if (_currentScene != null)
 				_currentScene.Dispose();
-
-			_sceneRenderer.Dispose();
 		}
 
 		public void Load()

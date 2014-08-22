@@ -1,4 +1,4 @@
-﻿namespace DeferVox.Voxels
+﻿namespace DeferVox.BasicEntities.Voxels
 {
 	internal class VoxelChunk
 	{

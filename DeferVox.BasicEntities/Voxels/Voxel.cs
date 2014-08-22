@@ -1,6 +1,6 @@
 ﻿using DeferVox.Rendering;
 
-namespace DeferVox.Voxels
+namespace DeferVox.BasicEntities.Voxels
 {
 	internal struct Voxel
 	{

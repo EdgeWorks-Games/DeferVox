@@ -22,8 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EE6D6922
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeferVox.Tests", "Tests\DeferVox.Tests\DeferVox.Tests.csproj", "{4CECD9D2-2E29-4C0A-ADD1-ADD2F17F742C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeferVox.Voxels", "DeferVox.Voxels\DeferVox.Voxels.csproj", "{E71F16E3-64FA-4B8A-BAB2-5E6EA58AF0C2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeferVox.Rendering", "DeferVox.Rendering\DeferVox.Rendering.csproj", "{2933D29C-2661-44EB-9450-814F1CD3CA11}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeferVox.Input", "DeferVox.Input\DeferVox.Input.csproj", "{715C2DD2-E1BB-4ED1-B27B-6E57B2D1274A}"
@@ -54,10 +52,6 @@ Global
 		{4CECD9D2-2E29-4C0A-ADD1-ADD2F17F742C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CECD9D2-2E29-4C0A-ADD1-ADD2F17F742C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CECD9D2-2E29-4C0A-ADD1-ADD2F17F742C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E71F16E3-64FA-4B8A-BAB2-5E6EA58AF0C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E71F16E3-64FA-4B8A-BAB2-5E6EA58AF0C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E71F16E3-64FA-4B8A-BAB2-5E6EA58AF0C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E71F16E3-64FA-4B8A-BAB2-5E6EA58AF0C2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2933D29C-2661-44EB-9450-814F1CD3CA11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2933D29C-2661-44EB-9450-814F1CD3CA11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2933D29C-2661-44EB-9450-814F1CD3CA11}.Release|Any CPU.ActiveCfg = Release|Any CPU
