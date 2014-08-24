@@ -1,7 +1,10 @@
-﻿namespace DeferVox.BasicEntities.Voxels
+﻿using System;
+
+namespace DeferVox.BasicEntities.Voxels
 {
 	internal class VoxelChunk
 	{
+		private static readonly Random Random = new Random();
 		public const int Size = 16;
 
 		public Vector3I Position { get; private set; }
@@ -18,7 +21,11 @@
 					voxels[x][y] = new Voxel[Size];
 
 				for (var z = 0; z < Size; z++)
-					voxels[x][0][z] = new Voxel(true);
+				{
+					var height = Random.Next(1, 3);
+					for (var y = 0; y < height; y++)
+						voxels[x][y][z] = new Voxel(true);
+				}
 			}
 
 			return new VoxelChunk

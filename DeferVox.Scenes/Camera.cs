@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using OpenTK;
 
-namespace DeferVox
+namespace DeferVox.Scenes
 {
 	public sealed class Camera
 	{

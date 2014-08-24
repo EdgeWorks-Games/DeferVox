@@ -38,11 +38,12 @@ namespace RedLine
 			var playerCamera = new Camera
 			{
 				Resolution = new Size(1280, 720),
-				VerticalFieldOfView = MathHelper.DegreesToRadians(70)
+				VerticalFieldOfView = MathHelper.DegreesToRadians(70),
+				Position = new Vector3(0, 4f, 0)
 			};
 			scene.Cameras.Add(playerCamera);
 
-			scene.Entities.Add(new NoClipCamEntity(_input, new Vector3(0, 1.1f, 0), playerCamera)
+			scene.Entities.Add(new NoClipCamEntity(_input, playerCamera)
 			{
 				Speed = 3f,
 				FastSpeed = 6f

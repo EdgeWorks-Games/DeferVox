@@ -5,23 +5,17 @@ using Xunit;
 
 namespace DeferVox.Tests.Scenes
 {
-	public class GameSceneTests : IDisposable
+	public class GameSceneTests
 	{
-		private readonly GameScene _gameScene = new GameScene();
-
-		public void Dispose()
-		{
-			_gameScene.Dispose();
-		}
-
 		[Fact]
 		public void Dispose_Entities_Disposed()
 		{
+			var gameScene = new GameScene();
 			var mock = new Mock<IEntity>();
 			mock.Setup(e => e.Dispose()).Verifiable();
 
-			_gameScene.Entities.Add(mock.Object);
-			_gameScene.Dispose();
+			gameScene.Entities.Add(mock.Object);
+			gameScene.Dispose();
 
 			mock.Verify(e => e.Dispose(), Times.Once);
 		}
@@ -29,23 +23,28 @@ namespace DeferVox.Tests.Scenes
 		[Fact]
 		public void Update_Entities_Updated()
 		{
+			var gameScene = new GameScene();
 			var delta = TimeSpan.FromSeconds(1.5);
-
 			var mock = new Mock<IEntity>();
 			mock.Setup(e => e.Update(delta)).Verifiable();
 
-			_gameScene.Entities.Add(mock.Object);
-			_gameScene.Update(delta);
+			gameScene.Entities.Add(mock.Object);
+			gameScene.Update(delta);
 
 			mock.Verify(e => e.Update(delta), Times.Once);
+
+			gameScene.Dispose();
 		}
 
 		[Fact]
 		public void Update_NoEntities_CanUpdate()
 		{
+			var gameScene = new GameScene();
 			var delta = TimeSpan.FromSeconds(1.5);
 
-			_gameScene.Update(delta);
+			gameScene.Update(delta);
+
+			gameScene.Dispose();
 		}
 	}
 }

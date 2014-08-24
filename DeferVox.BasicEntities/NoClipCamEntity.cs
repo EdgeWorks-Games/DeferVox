@@ -1,6 +1,7 @@
 ﻿using System;
 using DeferVox.Input;
 using DeferVox.Rendering;
+using DeferVox.Scenes;
 using OpenTK;
 using OpenTK.Input;
 
@@ -8,22 +9,17 @@ namespace DeferVox.BasicEntities
 {
 	public sealed class NoClipCamEntity : IRenderableEntity
 	{
-		public NoClipCamEntity(InputGameComponent component, Vector3 position, Camera camera)
+		public NoClipCamEntity(InputGameComponent input, Camera camera)
 		{
-			Position = position;
 			Camera = camera;
 
-			component.AimChange += input_AimChange;
-		}
+			input.AimChange += input_AimChange;
 
-		public NoClipCamEntity()
-		{
 			// Default values, once C# 6.0 rolls around we can do this inline
 			Speed = 1.0f;
+			FastSpeed = 2.0f;
 		}
 
-		public Vector3 Position { get; set; }
-		public Vector3 Rotation { get; set; }
 		public Camera Camera { get; set; }
 
 		public float Speed { get; set; }
@@ -36,9 +32,8 @@ namespace DeferVox.BasicEntities
 		public void Update(TimeSpan delta)
 		{
 			var rotationMatrix =
-				Matrix4.CreateRotationX(Rotation.X)*
-				Matrix4.CreateRotationY(Rotation.Y)*
-				Matrix4.CreateRotationZ(Rotation.Z);
+				Matrix4.CreateRotationX(Camera.Rotation.X)*
+				Matrix4.CreateRotationY(Camera.Rotation.Y);
 
 			var backwards = Vector3.Transform(Vector3.UnitZ, rotationMatrix);
 			var right = Vector3.Transform(Vector3.UnitX, rotationMatrix);
@@ -56,10 +51,7 @@ namespace DeferVox.BasicEntities
 				targetDirection -= right;
 
 			targetDirection.NormalizeFast();
-			Position += delta.PerSecond(targetDirection*(keyboard.IsKeyDown(Key.ShiftLeft) ? FastSpeed : Speed));
-
-			Camera.Position = Position + new Vector3(0, 1.5f, 0);
-			Camera.Rotation = new Vector3(Rotation.X, Rotation.Y, 0);
+			Camera.Position += delta.PerSecond(targetDirection*(keyboard.IsKeyDown(Key.ShiftLeft) ? FastSpeed : Speed));
 		}
 
 		public void Render(IRenderer renderer)
@@ -69,14 +61,10 @@ namespace DeferVox.BasicEntities
 
 		private void input_AimChange(object sender, AimEventArgs e)
 		{
-			var rotation = Rotation;
-
-			rotation.Y -= e.XDelta*0.0015f;
-			rotation.X -= e.YDelta*0.0015f;
-			rotation.X = Math.Min(rotation.X, MathHelper.DegreesToRadians(90));
-			rotation.X = Math.Max(rotation.X, -MathHelper.DegreesToRadians(90));
-
-			Rotation = rotation;
+			var rotation = Camera.Rotation.Xy + (-e.Delta.Yx * 0.0015f);
+			Camera.Rotation = new Vector3(
+				 MathHelper.Clamp(rotation.X, -MathHelper.PiOver2, MathHelper.PiOver2),
+				 rotation.Y, 0);
 		}
 	}
 }

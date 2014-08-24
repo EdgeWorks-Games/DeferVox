@@ -17,7 +17,6 @@ namespace DeferVox.BasicEntities.Voxels
 			_chunks.Add(VoxelChunk.Generate(new Vector3I(-1, 0, 0)));
 			_chunks.Add(VoxelChunk.Generate(new Vector3I(0, 0, -1)));
 			_chunks.Add(VoxelChunk.Generate(new Vector3I(-1, 0, -1)));
-			_chunks[0].Voxels[1][1][1] = new Voxel(true);
 			Trace.TraceInformation("Generated {0} chunk{1}!", _chunks.Count, _chunks.Count == 1 ? "" : "s");
 
 			_voxelMesh = new StaticMesh<PositionUvVertex>(Voxel.Mesh, PositionUvVertex.SizeInBytes);
