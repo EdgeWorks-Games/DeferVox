@@ -79,17 +79,17 @@
       <Project>{715c2dd2-e1bb-4ed1-b27b-6e57b2d1274a}</Project>
       <Name>DeferVox.Input</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DeferVox.Rendering.Deferred\DeferVox.Rendering.Deferred.csproj">
-      <Project>{1E866250-934C-46FF-982F-2A6E51C439A4}</Project>
-      <Name>DeferVox.Rendering.Deferred</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\DeferVox.Rendering\DeferVox.Rendering.csproj">
       <Project>{2933D29C-2661-44EB-9450-814F1CD3CA11}</Project>
       <Name>DeferVox.Rendering</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DeferVox.Scenes\DeferVox.Scenes.csproj">
-      <Project>{d1fa87db-5202-486f-b037-1334324653ba}</Project>
-      <Name>DeferVox.Scenes</Name>
+    <ProjectReference Include="..\..\DeferVox.Toolbox\DeferVox.Toolbox.csproj">
+      <Project>{62165807-5965-432B-81C8-0D43F4305F18}</Project>
+      <Name>DeferVox.Toolbox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DeferVox.Window\DeferVox.Window.csproj">
+      <Project>{722932d0-5dcd-4de6-9930-11799f586160}</Project>
+      <Name>DeferVox.Window</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\DeferVox\DeferVox.csproj">
       <Project>{5242D4AE-5A8B-4C44-BDBC-D0EF42C2D1A3}</Project>

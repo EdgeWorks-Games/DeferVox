@@ -1,74 +1,76 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using OpenTK;
-using OpenTK.Graphics;
+using System.Threading;
 using OpenTK.Input;
 
 namespace DeferVox
 {
 	public sealed class GameEngine : IDisposable
 	{
+		private GameScene _scene;
+
 		public GameEngine(string friendlyName)
 		{
+			Name = friendlyName;
 			Components = new Collection<IGameComponent>();
-
-			// Set up the game window
-			GameWindow = new GameWindow(
-				1280, 720,
-				new GraphicsMode(32, 16, 0, 0), // Deferred rendering so no samples
-				friendlyName,
-				GameWindowFlags.FixedWindow);
-
-			GameWindow.Load += GameWindow_Load;
-			GameWindow.RenderFrame += GameWindow_RenderFrame;
-			GameWindow.UpdateFrame += GameWindow_UpdateFrame;
 		}
 
-		public GameWindow GameWindow { get; private set; }
+		public bool KeepRunning { get; set; }
+		public string Name { get; private set; }
 		public Collection<IGameComponent> Components { get; private set; }
+
+		public GameScene Scene
+		{
+			get { return _scene; }
+			set
+			{
+				if (value == null)
+					throw new ArgumentNullException("value");
+
+				if (_scene != null)
+					_scene.Dispose();
+
+				_scene = value;
+			}
+		}
 
 		public void Dispose()
 		{
-			GameWindow.Dispose();
+			if (_scene != null)
+				_scene.Dispose();
 		}
 
-		private void GameWindow_Load(object sender, EventArgs e)
-		{
-			foreach (var component in Components)
-				component.Load();
-		}
+		public event EventHandler<UpdateEventArgs> PreUpdate = (s, e) => { };
+		public event EventHandler<UpdateEventArgs> PostUpdate = (s, e) => { };
 
-		private void GameWindow_UpdateFrame(object sender, FrameEventArgs e)
+		public void Update(TimeSpan delta)
 		{
-			var delta = TimeSpan.FromSeconds(Math.Min(e.Time, 0.4));
+			if (_scene == null)
+				throw new InvalidOperationException("Can't update before a scene has been set.");
+
+			PreUpdate(this, new UpdateEventArgs(delta, _scene));
 
 #if DEBUG
 			// Debug key for halting execution
 			if (Keyboard.GetState().IsKeyDown(Key.Escape))
-				GameWindow.Exit();
+				KeepRunning = false;
 #endif
 
-			// Perform work that has to be done before the world state can be updated
-			// For example: input and network packet processing
-			foreach (var component in Components)
-				component.PreUpdate();
-
-			// Update the world state
-			foreach (var component in Components)
-				component.Update(delta);
-		}
-
-		private void GameWindow_RenderFrame(object sender, FrameEventArgs e)
-		{
-			foreach (var component in Components)
-				component.Render();
-
-			GameWindow.SwapBuffers();
+			PostUpdate(this, new UpdateEventArgs(delta, _scene));
 		}
 
 		public void Run()
 		{
-			GameWindow.Run();
+			if (_scene == null)
+				throw new InvalidOperationException("Can't run before a scene has been set.");
+
+			var targetDelta = TimeSpan.FromSeconds(0.016);
+			KeepRunning = true;
+			while (KeepRunning)
+			{
+				Update(targetDelta);
+				Thread.Sleep(targetDelta);
+			}
 		}
 	}
 }

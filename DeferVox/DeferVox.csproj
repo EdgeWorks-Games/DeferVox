@@ -46,10 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IObjectComponent.cs" />
+    <Compile Include="ObjectComponents\CameraObjectComponent.cs" />
+    <Compile Include="GameScene.cs" />
     <Compile Include="IGameComponent.cs" />
     <Compile Include="GameEngine.cs" />
+    <Compile Include="ObjectComponents\MeshObjectComponent.cs" />
+    <Compile Include="PositionUvVertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="GameObject.cs" />
     <Compile Include="TimeSpanExtensions.cs" />
+    <Compile Include="UpdateEventArgs.cs" />
     <Compile Include="Vector3I.cs" />
   </ItemGroup>
   <ItemGroup>

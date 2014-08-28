@@ -12,7 +12,7 @@ namespace DeferVox.Input
 		public InputGameComponent(GameEngine engine)
 		{
 			_engine = engine;
-			_engine.GameWindow.CursorVisible = false;
+			//_engine.GameWindow.CursorVisible = false;
 			ClipCursor();
 		}
 
@@ -25,12 +25,12 @@ namespace DeferVox.Input
 
 		private void ClipCursor()
 		{
-			var borderSize = (_engine.GameWindow.Bounds.Width - _engine.GameWindow.ClientSize.Width) / 2;
+			/*var borderSize = (_engine.GameWindow.Bounds.Width - _engine.GameWindow.ClientSize.Width) / 2;
 			Cursor.Clip = new Rectangle(
 				_engine.GameWindow.Bounds.X + borderSize,
 				(_engine.GameWindow.Bounds.Y + _engine.GameWindow.Bounds.Height) - (_engine.GameWindow.ClientSize.Height + borderSize),
 				_engine.GameWindow.ClientSize.Width,
-				_engine.GameWindow.ClientSize.Height);
+				_engine.GameWindow.ClientSize.Height);*/
 		}
 
 		public void Load()
@@ -39,7 +39,7 @@ namespace DeferVox.Input
 
 		public void PreUpdate()
 		{
-			_currentPointer = Cursor.Position;
+			/*_currentPointer = Cursor.Position;
 
 			var deltaPointer = new Point(
 				_currentPointer.X - _previousPointer.X,
@@ -51,7 +51,7 @@ namespace DeferVox.Input
 
 			_previousPointer = Cursor.Position;
 
-			AimChange(this, new AimEventArgs(deltaPointer.X, deltaPointer.Y));
+			AimChange(this, new AimEventArgs(deltaPointer.X, deltaPointer.Y));*/
 		}
 
 		public void Update(TimeSpan delta)

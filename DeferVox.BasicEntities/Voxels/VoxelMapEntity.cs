@@ -6,7 +6,7 @@ using OpenTK;
 
 namespace DeferVox.BasicEntities.Voxels
 {
-	public sealed class VoxelMapEntity : IRenderableEntity
+	public sealed class VoxelMapEntity
 	{
 		private readonly List<VoxelChunk> _chunks = new List<VoxelChunk>();
 		private readonly StaticMesh<PositionUvVertex> _voxelMesh;

@@ -1,18 +1,13 @@
-﻿using System.Drawing;
-using DeferVox;
-using DeferVox.BasicEntities;
-using DeferVox.BasicEntities.Voxels;
+﻿using DeferVox;
 using DeferVox.Input;
-using DeferVox.Rendering.Deferred;
-using DeferVox.Scenes;
-using OpenTK;
+using DeferVox.Rendering;
+using DeferVox.Toolbox;
+using DeferVox.Window;
 
 namespace RedLine
 {
 	internal class Program
 	{
-		private InputGameComponent _input;
-
 		private static void Main()
 		{
 			var program = new Program();
@@ -22,33 +17,28 @@ namespace RedLine
 		private void Run()
 		{
 			using (var engine = new GameEngine("Red Line"))
-			using (var sceneRenderer = new DeferredSceneRenderer())
-			using (var sceneManager = new ScenesGameComponent(InitializeMainMenuScene, sceneRenderer))
-			using (_input = new InputGameComponent(engine))
+			using (var window = new WindowGameComponent(engine))
+			using (var rendering = new RenderingGameComponent(engine, window))
+			using (var input = new InputGameComponent(engine))
 			{
-				engine.Components.Add(sceneManager);
-				engine.Components.Add(_input);
+				engine.Components.Add(window);
+				engine.Components.Add(rendering);
+				engine.Components.Add(input);
+
+				var scene = new GameScene();
+
+				scene.Root.AddChild(new NoClipCameraObject
+				{
+					Speed = 3f,
+					FastSpeed = 6f
+				});
+
+				scene.Root.AddChild(new VoxelMapObject());
+
+				engine.Scene = scene;
 
 				engine.Run();
 			}
-		}
-
-		private void InitializeMainMenuScene(GameScene scene)
-		{
-			var playerCamera = new Camera
-			{
-				Resolution = new Size(1280, 720),
-				VerticalFieldOfView = MathHelper.DegreesToRadians(70),
-				Position = new Vector3(0, 4f, 0)
-			};
-			scene.Cameras.Add(playerCamera);
-
-			scene.Entities.Add(new NoClipCamEntity(_input, playerCamera)
-			{
-				Speed = 3f,
-				FastSpeed = 6f
-			});
-			scene.Entities.Add(new VoxelMapEntity());
 		}
 	}
 }

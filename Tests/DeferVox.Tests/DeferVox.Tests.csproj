@@ -60,9 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scenes\CameraTests.cs" />
-    <Compile Include="Scenes\GameSceneTests.cs" />
-    <Compile Include="Scenes\ScenesGameComponentTests.cs" />
+    <Compile Include="ObjectComponents\CameraTests.cs" />
     <Compile Include="TimeSpanExtensionsTests.cs" />
     <Compile Include="Vector3ITests.cs" />
   </ItemGroup>
@@ -78,17 +76,9 @@
       <Project>{715c2dd2-e1bb-4ed1-b27b-6e57b2d1274a}</Project>
       <Name>DeferVox.Input</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DeferVox.Rendering.Deferred\DeferVox.Rendering.Deferred.csproj">
-      <Project>{1e866250-934c-46ff-982f-2a6e51c439a4}</Project>
-      <Name>DeferVox.Rendering.Deferred</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\DeferVox.Rendering\DeferVox.Rendering.csproj">
       <Project>{2933d29c-2661-44eb-9450-814f1cd3ca11}</Project>
       <Name>DeferVox.Rendering</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\DeferVox.Scenes\DeferVox.Scenes.csproj">
-      <Project>{d1fa87db-5202-486f-b037-1334324653ba}</Project>
-      <Name>DeferVox.Scenes</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\DeferVox\DeferVox.csproj">
       <Project>{5242d4ae-5a8b-4c44-bdbc-d0ef42c2d1a3}</Project>

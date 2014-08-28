@@ -3,9 +3,9 @@ using System.IO;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
-namespace DeferVox.Rendering.Deferred
+namespace DeferVox.Rendering
 {
-	internal class DeferredRenderer : IRenderer, IDisposable
+	public class DeferredRenderer : IRenderer, IDisposable
 	{
 		private readonly ShaderProgram _colorShaderProgram;
 		private readonly ShaderProgram _textureShaderProgram;

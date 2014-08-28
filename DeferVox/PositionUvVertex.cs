@@ -2,7 +2,7 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 
-namespace DeferVox.Rendering
+namespace DeferVox
 {
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	public struct PositionUvVertex

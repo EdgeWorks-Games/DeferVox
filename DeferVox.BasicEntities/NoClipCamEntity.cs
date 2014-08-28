@@ -1,15 +1,15 @@
 ﻿using System;
 using DeferVox.Input;
+using DeferVox.ObjectComponents;
 using DeferVox.Rendering;
-using DeferVox.Scenes;
 using OpenTK;
 using OpenTK.Input;
 
 namespace DeferVox.BasicEntities
 {
-	public sealed class NoClipCamEntity : IRenderableEntity
+	public sealed class NoClipCamEntity
 	{
-		public NoClipCamEntity(InputGameComponent input, Camera camera)
+		public NoClipCamEntity(InputGameComponent input, CameraObjectComponent camera)
 		{
 			Camera = camera;
 
@@ -20,7 +20,7 @@ namespace DeferVox.BasicEntities
 			FastSpeed = 2.0f;
 		}
 
-		public Camera Camera { get; set; }
+		public CameraObjectComponent Camera { get; set; }
 
 		public float Speed { get; set; }
 		public float FastSpeed { get; set; }
@@ -31,7 +31,7 @@ namespace DeferVox.BasicEntities
 
 		public void Update(TimeSpan delta)
 		{
-			var rotationMatrix =
+			/*var rotationMatrix =
 				Matrix4.CreateRotationX(Camera.Rotation.X)*
 				Matrix4.CreateRotationY(Camera.Rotation.Y);
 
@@ -51,7 +51,7 @@ namespace DeferVox.BasicEntities
 				targetDirection -= right;
 
 			targetDirection.NormalizeFast();
-			Camera.Position += delta.PerSecond(targetDirection*(keyboard.IsKeyDown(Key.ShiftLeft) ? FastSpeed : Speed));
+			Camera.Position += delta.PerSecond(targetDirection*(keyboard.IsKeyDown(Key.ShiftLeft) ? FastSpeed : Speed));*/
 		}
 
 		public void Render(IRenderer renderer)
@@ -61,10 +61,10 @@ namespace DeferVox.BasicEntities
 
 		private void input_AimChange(object sender, AimEventArgs e)
 		{
-			var rotation = Camera.Rotation.Xy + (-e.Delta.Yx * 0.0015f);
+			/*var rotation = Camera.Rotation.Xy + (-e.Delta.Yx * 0.0015f);
 			Camera.Rotation = new Vector3(
 				 MathHelper.Clamp(rotation.X, -MathHelper.PiOver2, MathHelper.PiOver2),
-				 rotation.Y, 0);
+				 rotation.Y, 0);*/
 		}
 	}
 }
