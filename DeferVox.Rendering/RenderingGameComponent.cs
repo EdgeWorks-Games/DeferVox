@@ -23,6 +23,7 @@ namespace DeferVox.Rendering
 			// Post update is called after we're done with updating the world state.
 			// Changing the world state in post update means undefined behavior,
 			// so we can safely render the world in it.
+			// TODO: Actually render at a different rate than update, then lock the world while copying it over.
 			engine.PostUpdate += EngineOnPostUpdate;
 		}
 

@@ -16,9 +16,11 @@ namespace DeferVox
 			Components = new Collection<IGameComponent>();
 		}
 
-		public bool KeepRunning { get; set; }
 		public string Name { get; private set; }
 		public Collection<IGameComponent> Components { get; private set; }
+
+		public bool KeepRunning { get; set; }
+		public TimeSpan TargetDelta { get; set; }
 
 		public GameScene Scene
 		{
@@ -42,10 +44,10 @@ namespace DeferVox
 		}
 
 		public event EventHandler<UpdateEventArgs> PreUpdate = (s, e) => { };
-		public event EventHandler<UpdateEventArgs> AtUpdate = (s, e) => { };
+		public event EventHandler<UpdateEventArgs> Update = (s, e) => { };
 		public event EventHandler<UpdateEventArgs> PostUpdate = (s, e) => { };
 
-		public void Update(TimeSpan delta)
+		public void UpdateWorld(TimeSpan delta)
 		{
 			if (_scene == null)
 				throw new InvalidOperationException("Can't update before a scene has been set.");
@@ -57,7 +59,7 @@ namespace DeferVox
 			if (Keyboard.GetState().IsKeyDown(Key.Escape))
 				KeepRunning = false;
 #endif
-			AtUpdate(this, new UpdateEventArgs(delta, _scene));
+			Update(this, new UpdateEventArgs(delta, _scene));
 
 			PostUpdate(this, new UpdateEventArgs(delta, _scene));
 		}
@@ -68,23 +70,22 @@ namespace DeferVox
 				throw new InvalidOperationException("Can't run before a scene has been set.");
 
 			var stopwatch = new Stopwatch();
-			var targetDelta = TimeSpan.FromSeconds(0.016);
-			var previousDelta = targetDelta;
+			var previousDelta = TargetDelta;
 
 			KeepRunning = true;
 			while (KeepRunning)
 			{
 				stopwatch.Restart();
 
-				Update(previousDelta);
+				UpdateWorld(previousDelta);
 
-				while (stopwatch.Elapsed < targetDelta)
+				while (stopwatch.Elapsed < TargetDelta)
 				{
 					if (Thread.Yield())
 						continue;
 
 					// We couldn't yield, just sleep a bit
-					Thread.Sleep(1);
+					Thread.Sleep(0);
 				}
 
 				previousDelta = stopwatch.Elapsed;

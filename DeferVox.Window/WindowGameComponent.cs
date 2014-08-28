@@ -22,7 +22,8 @@ namespace DeferVox.Window
 				engine.Name,
 				GameWindowFlags.FixedWindow)
 			{
-				Visible = true
+				Visible = true,
+				VSync = VSyncMode.Adaptive
 			};
 
 			// We own the window so we're responsible for polling events

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using DeferVox;
 using DeferVox.Input;
 using DeferVox.Rendering;
@@ -19,7 +20,10 @@ namespace RedLine
 
 		private void Run()
 		{
-			using (var engine = new GameEngine("Red Line"))
+			using (var engine = new GameEngine("Red Line")
+			{
+				TargetDelta = TimeSpan.FromSeconds(0.016)
+			})
 			using (var window = new WindowGameComponent(engine))
 			using (var rendering = new RenderingGameComponent(engine, window))
 			using (var input = new InputGameComponent(engine, window))

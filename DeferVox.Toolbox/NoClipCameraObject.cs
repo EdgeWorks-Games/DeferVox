@@ -17,7 +17,7 @@ namespace DeferVox.Toolbox
 			Speed = 1.0f;
 			FastSpeed = 2.0f;
 
-			engine.AtUpdate += EngineOnUpdate;
+			engine.Update += EngineOnUpdate;
 			input.AimChange += InputOnAimChange;
 
 			Add(new CameraObjectComponent
