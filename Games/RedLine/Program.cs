@@ -1,8 +1,10 @@
-﻿using DeferVox;
+﻿using System.Drawing;
+using DeferVox;
 using DeferVox.Input;
 using DeferVox.Rendering;
 using DeferVox.Toolbox;
 using DeferVox.Window;
+using OpenTK;
 
 namespace RedLine
 {
@@ -27,13 +29,17 @@ namespace RedLine
 
 				var scene = new GameScene();
 
-				scene.Root.AddChild(new NoClipCameraObject
+				scene.Root.AddChild(new NoClipCameraObject(new Size(1280, 720))
 				{
 					Speed = 3f,
 					FastSpeed = 6f
 				});
 
 				scene.Root.AddChild(new VoxelMapObject());
+				scene.Root.AddChild(new VoxelMapObject
+				{
+					Position = new Vector3(0, 0, -2)
+				});
 
 				engine.Scene = scene;
 

@@ -6,13 +6,14 @@ namespace DeferVox.Toolbox
 {
 	public class NoClipCameraObject : GameObject
 	{
-		public NoClipCameraObject()
+		public NoClipCameraObject(Size resolution)
 		{
-			Position = new Vector3(0, 0, 4);
+			Position = new Vector3(4, 4, 4);
+			Rotation = new Vector3(MathHelper.DegreesToRadians(-20), MathHelper.DegreesToRadians(45), 0);
 
 			Add(new CameraObjectComponent
 			{
-				Resolution = new Size(1280, 720),
+				Resolution = resolution,
 				VerticalFieldOfView = MathHelper.DegreesToRadians(70)
 			});
 		}

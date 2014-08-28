@@ -53,12 +53,7 @@ namespace DeferVox.BasicEntities
 			targetDirection.NormalizeFast();
 			Camera.Position += delta.PerSecond(targetDirection*(keyboard.IsKeyDown(Key.ShiftLeft) ? FastSpeed : Speed));*/
 		}
-
-		public void Render(IRenderer renderer)
-		{
-			// Perhaps here render the player in case of reflections and shadows?
-		}
-
+		
 		private void input_AimChange(object sender, AimEventArgs e)
 		{
 			/*var rotation = Camera.Rotation.Xy + (-e.Delta.Yx * 0.0015f);

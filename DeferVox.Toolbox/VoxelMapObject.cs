@@ -1,4 +1,4 @@
-﻿using DeferVox.Rendering;
+﻿using DeferVox.ObjectComponents;
 
 namespace DeferVox.Toolbox
 {
@@ -6,10 +6,7 @@ namespace DeferVox.Toolbox
 	{
 		public VoxelMapObject()
 		{
-			Add(new TempMeshObjectComponent(
-				new StaticMesh<PositionUvVertex>(
-					Voxel.Mesh,
-					PositionUvVertex.SizeInBytes)));
+			Add(new MeshObjectComponent(new Mesh(Voxel.Mesh)));
 		}
 	}
 }

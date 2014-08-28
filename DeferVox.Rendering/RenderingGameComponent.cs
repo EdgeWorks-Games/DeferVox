@@ -1,33 +1,37 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using DeferVox.ObjectComponents;
 using DeferVox.Window;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL4;
 
 namespace DeferVox.Rendering
 {
 	public class RenderingGameComponent : IGameComponent, IDisposable
 	{
+		private readonly Dictionary<Mesh, RenderMesh> _renderMeshCache = new Dictionary<Mesh, RenderMesh>();
 		private readonly DeferredRenderer _renderer;
 		private readonly WindowGameComponent _window;
 
 		public RenderingGameComponent(GameEngine engine, WindowGameComponent window)
 		{
 			_window = window;
+			_renderer = new DeferredRenderer();
 
 			// Post update is called after we're done with updating the world state.
 			// Changing the world state in post update means undefined behavior,
 			// so we can safely render the world in it.
 			engine.PostUpdate += EngineOnPostUpdate;
-
-			_renderer = new DeferredRenderer();
 		}
 
 		public void Dispose()
 		{
+			// Dispose all cached render meshes
+			foreach(var mesh in _renderMeshCache.Select(m => m.Value))
+				mesh.Dispose();
+
 			_renderer.Dispose();
 			_window.Dispose();
 		}
@@ -57,8 +61,8 @@ namespace DeferVox.Rendering
 			// Flatten the scene tree into lists of objects
 			// TODO: Actually do that. Right now we're just looking for cameras and meshes.
 			// We need to support rendering of other stuff in an extensible way.
-			var cameraPairs = e.Scene.TempGetComponent<CameraObjectComponent>();
-			var meshPairs = e.Scene.TempGetComponent<TempMeshObjectComponent>().ToList();
+			var cameraPairs = e.Scene.TempGetComponents<CameraObjectComponent>();
+			var meshPairs = e.Scene.TempGetComponents<MeshObjectComponent>();
 
 			foreach (var cameraPair in cameraPairs)
 			{
@@ -74,9 +78,21 @@ namespace DeferVox.Rendering
 				var projection = Matrix4.CreatePerspectiveFieldOfView(camera.VerticalFieldOfView, camera.Ratio, 0.1f, 100f);
 				_renderer.PvMatrix = view*projection;
 
-				foreach (var mesh in meshPairs)
+				// Render the meshes in the scene
+				foreach (var meshPair in meshPairs)
 				{
-					_renderer.RenderMesh(mesh.Object.Position, mesh.Object.Rotation, mesh.Component.TempMesh);
+					var mesh = meshPair.Component.Mesh;
+
+					RenderMesh renderMesh;
+					if (!_renderMeshCache.TryGetValue(mesh, out renderMesh))
+					{
+						renderMesh = new RenderMesh(mesh);
+						_renderMeshCache.Add(mesh, renderMesh);
+
+						// TODO: Also remove the mesh once it doesn't exist in the scene anymore
+					}
+
+					_renderer.RenderMesh(meshPair.Matrix, renderMesh);
 				}
 			}
 

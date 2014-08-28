@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DeferVox.ObjectComponents;
 using OpenTK;
 
 namespace DeferVox
@@ -19,7 +18,7 @@ namespace DeferVox
 		{
 		}
 
-		public IEnumerable<ComponentMatrixPair<TComponent>> TempGetComponent<TComponent>() where TComponent : IObjectComponent
+		public List<ComponentMatrixPair<TComponent>> TempGetComponents<TComponent>() where TComponent : IObjectComponent
 		{
 			var pairList = new List<ComponentMatrixPair<TComponent>>();
 			ScanComponentRecursive(pairList, Root, Matrix4.Identity);
@@ -32,7 +31,7 @@ namespace DeferVox
 
 			list.AddRange(obj.Components
 				.OfType<TComponent>()
-				.Select(c => new ComponentMatrixPair<TComponent>(c, matrix, obj)));
+				.Select(c => new ComponentMatrixPair<TComponent>(c, matrix)));
 
 			foreach (var child in obj.Children)
 				ScanComponentRecursive(list, child, matrix);
@@ -42,13 +41,11 @@ namespace DeferVox
 		{
 			private readonly TComponent _component;
 			private readonly Matrix4 _matrix;
-			private readonly GameObject _object;
 
-			public ComponentMatrixPair(TComponent component, Matrix4 matrix, GameObject obj)
+			public ComponentMatrixPair(TComponent component, Matrix4 matrix)
 			{
 				_component = component;
 				_matrix = matrix;
-				_object = obj;
 			}
 
 			public TComponent Component
@@ -59,11 +56,6 @@ namespace DeferVox
 			public Matrix4 Matrix
 			{
 				get { return _matrix; }
-			}
-
-			public GameObject Object
-			{
-				get { return _object; }
 			}
 		}
 	}

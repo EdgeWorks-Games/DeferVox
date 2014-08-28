@@ -5,18 +5,18 @@ using OpenTK.Graphics.OpenGL4;
 namespace DeferVox
 {
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
-	public struct PositionUvVertex
+	public struct TexturedVertex
 	{
 		private readonly Vector3 _position;
 		private readonly Vector2 _UV;
 
-		public PositionUvVertex(float x, float y, float z, float u, float v)
+		public TexturedVertex(float x, float y, float z, float u, float v)
 		{
 			_position = new Vector3(x, y, z);
 			_UV = new Vector2(u, v);
 		}
 
-		public static readonly int SizeInBytes = Marshal.SizeOf(new PositionUvVertex());
+		public static readonly int SizeInBytes = Marshal.SizeOf(new TexturedVertex());
 
 		public static void SetVertexAttribPointers()
 		{
@@ -54,25 +54,25 @@ namespace DeferVox
 
 		public override bool Equals(object obj)
 		{
-			if (!(obj is PositionUvVertex))
+			if (!(obj is TexturedVertex))
 				return false;
 
-			return Equals((PositionUvVertex)obj);
+			return Equals((TexturedVertex)obj);
 		}
 
-		private bool Equals(PositionUvVertex other)
+		private bool Equals(TexturedVertex other)
 		{
 			if (_position != other._position)
 				return false;
 			return _UV == other._UV;
 		}
 
-		public static bool operator ==(PositionUvVertex left, PositionUvVertex right)
+		public static bool operator ==(TexturedVertex left, TexturedVertex right)
 		{
 			return left.Equals(right);
 		}
 
-		public static bool operator !=(PositionUvVertex left, PositionUvVertex right)
+		public static bool operator !=(TexturedVertex left, TexturedVertex right)
 		{
 			return !left.Equals(right);
 		}

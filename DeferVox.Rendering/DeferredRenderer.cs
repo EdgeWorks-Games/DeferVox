@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace DeferVox.Rendering
 {
-	public class DeferredRenderer : IRenderer, IDisposable
+	public class DeferredRenderer : IDisposable
 	{
 		private readonly ShaderProgram _colorShaderProgram;
 		private readonly ShaderProgram _textureShaderProgram;
@@ -32,25 +32,20 @@ namespace DeferVox.Rendering
 			_textureShaderProgram.Dispose();
 		}
 
-		public void RenderMesh(Vector3 position, Vector3 rotation, StaticMesh<PositionUvVertex> mesh)
+		public void RenderMesh(Matrix4 model, RenderMesh mesh)
 		{
 			// Set the shader settings
 			_textureShaderProgram.Use();
-			var model =
-				Matrix4.CreateRotationX(rotation.X) *
-				Matrix4.CreateRotationY(rotation.Y) *
-				Matrix4.CreateRotationZ(rotation.Z) *
-				Matrix4.CreateTranslation(position);
 			_textureShaderProgram.SetModelViewProjection(model * PvMatrix);
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, mesh.BufferId);
-			PositionUvVertex.SetVertexAttribPointers();
+			TexturedVertex.SetVertexAttribPointers();
 			_grassTexture.Bind();
 
 			GL.DrawArrays(PrimitiveType.Triangles, 0, mesh.VertexCount);
 
 			Texture2D.ClearBind();
-			PositionUvVertex.ClearVertexAttribPointers();
+			TexturedVertex.ClearVertexAttribPointers();
 		}
 	}
 }

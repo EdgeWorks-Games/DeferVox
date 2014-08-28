@@ -46,13 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeferredRenderer.cs" />
-    <Compile Include="IRenderer.cs" />
-    <Compile Include="TempMeshObjectComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RenderingGameComponent.cs" />
     <Compile Include="ShaderExceptions.cs" />
     <Compile Include="ShaderProgram.cs" />
-    <Compile Include="StaticMesh.cs" />
+    <Compile Include="RenderMesh.cs" />
     <Compile Include="Texture2D.cs" />
   </ItemGroup>
   <ItemGroup>
