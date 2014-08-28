@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading;
 using OpenTK.Input;
 
@@ -66,14 +67,27 @@ namespace DeferVox
 			if (_scene == null)
 				throw new InvalidOperationException("Can't run before a scene has been set.");
 
+			var stopwatch = new Stopwatch();
 			var targetDelta = TimeSpan.FromSeconds(0.016);
+			var previousDelta = targetDelta;
+
 			KeepRunning = true;
 			while (KeepRunning)
 			{
-				Update(targetDelta);
+				stopwatch.Restart();
 
-				// TODO: Write in actual frame limiting
-				Thread.Yield();
+				Update(previousDelta);
+
+				while (stopwatch.Elapsed < targetDelta)
+				{
+					if (Thread.Yield())
+						continue;
+
+					// We couldn't yield, just sleep a bit
+					Thread.Sleep(1);
+				}
+
+				previousDelta = stopwatch.Elapsed;
 			}
 		}
 	}

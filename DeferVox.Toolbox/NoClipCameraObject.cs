@@ -12,6 +12,7 @@ namespace DeferVox.Toolbox
 		{
 			Position = new Vector3(4, 4, 4);
 			Rotation = new Vector3(MathHelper.DegreesToRadians(-20), MathHelper.DegreesToRadians(45), 0);
+
 			// Default values, once C# 6.0 rolls around we can do this inline
 			Speed = 1.0f;
 			FastSpeed = 2.0f;
