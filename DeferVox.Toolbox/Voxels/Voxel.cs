@@ -1,4 +1,4 @@
-﻿namespace DeferVox.Toolbox
+﻿namespace DeferVox.Toolbox.Voxels
 {
 	internal struct Voxel
 	{

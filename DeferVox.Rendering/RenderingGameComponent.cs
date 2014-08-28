@@ -58,9 +58,8 @@ namespace DeferVox.Rendering
 			GL.ClearColor(Color.CornflowerBlue);
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 
-			// Flatten the scene tree into lists of objects
+			// Flatten the scene tree into lists of objects.
 			// TODO: Actually do that. Right now we're just looking for cameras and meshes.
-			// We need to support rendering of other stuff in an extensible way.
 			var cameraPairs = e.Scene.TempGetComponents<CameraObjectComponent>();
 			var meshPairs = e.Scene.TempGetComponents<MeshObjectComponent>();
 
@@ -69,9 +68,7 @@ namespace DeferVox.Rendering
 				var camera = cameraPair.Component;
 
 				GL.Clear(ClearBufferMask.DepthBufferBit);
-				GL.Viewport(
-					camera.ScreenPosition.X, camera.ScreenPosition.Y,
-					camera.Resolution.Width, camera.Resolution.Height);
+				GL.Viewport(camera.ScreenPosition, camera.Resolution);
 
 				// Set up the base ProjectionView that scene notes will use as base
 				var view = cameraPair.Matrix.Inverted();

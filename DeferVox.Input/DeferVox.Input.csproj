@@ -51,6 +51,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DeferVox.Window\DeferVox.Window.csproj">
+      <Project>{722932D0-5DCD-4DE6-9930-11799F586160}</Project>
+      <Name>DeferVox.Window</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DeferVox\DeferVox.csproj">
       <Project>{5242d4ae-5a8b-4c44-bdbc-d0ef42c2d1a3}</Project>
       <Name>DeferVox</Name>

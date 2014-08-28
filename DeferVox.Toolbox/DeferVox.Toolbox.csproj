@@ -47,10 +47,15 @@
   <ItemGroup>
     <Compile Include="NoClipCameraObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Voxel.cs" />
-    <Compile Include="VoxelMapObject.cs" />
+    <Compile Include="Voxels\Voxel.cs" />
+    <Compile Include="Voxels\VoxelChunk.cs" />
+    <Compile Include="Voxels\VoxelMapObject.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DeferVox.Input\DeferVox.Input.csproj">
+      <Project>{715C2DD2-E1BB-4ED1-B27B-6E57B2D1274A}</Project>
+      <Name>DeferVox.Input</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DeferVox\DeferVox.csproj">
       <Project>{5242D4AE-5A8B-4C44-BDBC-D0EF42C2D1A3}</Project>
       <Name>DeferVox</Name>

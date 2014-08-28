@@ -41,6 +41,7 @@ namespace DeferVox
 		}
 
 		public event EventHandler<UpdateEventArgs> PreUpdate = (s, e) => { };
+		public event EventHandler<UpdateEventArgs> AtUpdate = (s, e) => { };
 		public event EventHandler<UpdateEventArgs> PostUpdate = (s, e) => { };
 
 		public void Update(TimeSpan delta)
@@ -55,6 +56,7 @@ namespace DeferVox
 			if (Keyboard.GetState().IsKeyDown(Key.Escape))
 				KeepRunning = false;
 #endif
+			AtUpdate(this, new UpdateEventArgs(delta, _scene));
 
 			PostUpdate(this, new UpdateEventArgs(delta, _scene));
 		}
@@ -69,7 +71,9 @@ namespace DeferVox
 			while (KeepRunning)
 			{
 				Update(targetDelta);
-				Thread.Sleep(targetDelta);
+
+				// TODO: Write in actual frame limiting
+				Thread.Yield();
 			}
 		}
 	}

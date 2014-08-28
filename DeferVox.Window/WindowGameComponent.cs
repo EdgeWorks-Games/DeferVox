@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics;
 
@@ -33,6 +34,24 @@ namespace DeferVox.Window
 		{
 			get { return _window.Visible; }
 			set { _window.Visible = value; }
+		}
+
+		public bool CursorVisible
+		{
+			get { return _window.CursorVisible; }
+			set { _window.CursorVisible = value; }
+		}
+
+		public Rectangle Bounds
+		{
+			get { return _window.Bounds; }
+			set { _window.Bounds = value; }
+		}
+
+		public Size ClientSize
+		{
+			get { return _window.ClientSize; }
+			set { _window.ClientSize = value; }
 		}
 
 		public void Dispose()

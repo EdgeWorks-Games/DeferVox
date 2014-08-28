@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DeferVox.BasicEntities.Voxels
+namespace DeferVox.Toolbox.Voxels
 {
 	internal class VoxelChunk
 	{

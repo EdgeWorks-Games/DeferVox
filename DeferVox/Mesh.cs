@@ -7,6 +7,6 @@
 			Vertices = vertices;
 		}
 
-		public TexturedVertex[] Vertices { get; set; }
+		public TexturedVertex[] Vertices { get; private set; }
 	}
 }
