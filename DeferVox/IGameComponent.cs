@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DeferVox
+﻿namespace DeferVox
 {
 	public interface IGameComponent
 	{

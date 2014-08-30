@@ -59,8 +59,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameEngineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ObjectComponents\CameraTests.cs" />
+    <Compile Include="ObjectComponents\CameraObjectComponentTests.cs" />
     <Compile Include="TimeSpanExtensionsTests.cs" />
     <Compile Include="Vector3ITests.cs" />
   </ItemGroup>

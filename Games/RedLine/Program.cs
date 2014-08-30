@@ -6,7 +6,6 @@ using DeferVox.Rendering;
 using DeferVox.Toolbox;
 using DeferVox.Toolbox.Voxels;
 using DeferVox.Window;
-using OpenTK;
 
 namespace RedLine
 {
@@ -20,8 +19,9 @@ namespace RedLine
 
 		private void Run()
 		{
-			using (var engine = new GameEngine("Red Line")
+			using (var engine = new GameEngine
 			{
+				Name = "Red Line",
 				TargetDelta = TimeSpan.FromSeconds(0.016)
 			})
 			using (var window = new WindowGameComponent(engine))

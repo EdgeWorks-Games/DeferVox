@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using OpenTK;
 
 namespace DeferVox
@@ -37,17 +38,32 @@ namespace DeferVox
 			Parent = parent;
 		}
 
-		public void Add(IObjectComponent component)
+		public void AddComponent(IObjectComponent component)
 		{
 			_components.Add(component);
+		}
+
+		public IEnumerable<TComponent> GetComponents<TComponent>() where TComponent : IObjectComponent
+		{
+			return _components.OfType<TComponent>();
+		}
+
+		public TComponent GetComponent<TComponent>() where TComponent : IObjectComponent
+		{
+			var components = GetComponents<TComponent>().ToArray();
+
+			if (components.Length != 1)
+				throw new InvalidOperationException("Can't use GetComponent if an object has 0 or more than 1 components of this type.");
+
+			return components[0];
 		}
 
 		public Matrix4 CreateIsolatedMatrix()
 		{
 			return
-				Matrix4.CreateRotationX(Rotation.X) *
-				Matrix4.CreateRotationY(Rotation.Y) *
-				Matrix4.CreateRotationZ(Rotation.Z) *
+				Matrix4.CreateRotationX(Rotation.X)*
+				Matrix4.CreateRotationY(Rotation.Y)*
+				Matrix4.CreateRotationZ(Rotation.Z)*
 				Matrix4.CreateTranslation(Position);
 		}
 	}

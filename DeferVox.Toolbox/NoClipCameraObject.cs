@@ -10,8 +10,7 @@ namespace DeferVox.Toolbox
 	{
 		public NoClipCameraObject(GameEngine engine, InputGameComponent input, Size resolution)
 		{
-			Position = new Vector3(4, 4, 4);
-			Rotation = new Vector3(MathHelper.DegreesToRadians(-20), MathHelper.DegreesToRadians(45), 0);
+			Position = new Vector3(0, 4, 0);
 
 			// Default values, once C# 6.0 rolls around we can do this inline
 			Speed = 1.0f;
@@ -20,7 +19,7 @@ namespace DeferVox.Toolbox
 			engine.Update += EngineOnUpdate;
 			input.AimChange += InputOnAimChange;
 
-			Add(new CameraObjectComponent
+			AddComponent(new CameraObjectComponent
 			{
 				Resolution = resolution,
 				VerticalFieldOfView = MathHelper.DegreesToRadians(70)

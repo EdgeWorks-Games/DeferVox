@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using OpenTK;
 
 namespace DeferVox.Toolbox.Voxels
 {
 	internal class VoxelChunk
 	{
-		private static readonly Random Random = new Random();
 		public const int Size = 16;
+		private static readonly Random Random = new Random();
 
 		public Vector3I Position { get; private set; }
 		public Voxel[][][] Voxels { get; private set; }
@@ -22,7 +25,7 @@ namespace DeferVox.Toolbox.Voxels
 
 				for (var z = 0; z < Size; z++)
 				{
-					var height = Random.Next(1, 3);
+					var height = Random.Next(1, 4);
 					for (var y = 0; y < height; y++)
 						voxels[x][y][z] = new Voxel(true);
 				}
@@ -33,6 +36,29 @@ namespace DeferVox.Toolbox.Voxels
 				Position = position,
 				Voxels = voxels
 			};
+		}
+
+		public Mesh CreateMesh()
+		{
+			// Generate a mesh from the chunk
+			var meshVertices = new List<TexturedVertex>();
+			for (var x = 0; x < Voxels.Length; x++)
+			{
+				for (var y = 0; y < Voxels[x].Length; y++)
+				{
+					for (var z = 0; z < Voxels[x][y].Length; z++)
+					{
+						if (!Voxels[x][y][z].IsSolid)
+							continue;
+
+						var matrix = Matrix4.CreateTranslation(x, y, z);
+						meshVertices.AddRange(Voxel.Mesh.Select(v =>
+							new TexturedVertex(Vector3.Transform(v.Position, matrix), v.Uv)));
+					}
+				}
+			}
+
+			return new Mesh(meshVertices.ToArray());
 		}
 	}
 }

@@ -35,6 +35,8 @@ namespace DeferVox
 
 		public static void SetVertexAttribPointers()
 		{
+			// TODO: Move this to Rendering
+
 			GL.EnableVertexAttribArray(0);
 			GL.VertexAttribPointer( // Vertices
 				0, // attribute layout #0

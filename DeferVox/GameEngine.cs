@@ -10,13 +10,12 @@ namespace DeferVox
 	{
 		private GameScene _scene;
 
-		public GameEngine(string friendlyName)
+		public GameEngine()
 		{
-			Name = friendlyName;
 			Components = new Collection<IGameComponent>();
 		}
 
-		public string Name { get; private set; }
+		public string Name { get; set; }
 		public Collection<IGameComponent> Components { get; private set; }
 
 		public bool KeepRunning { get; set; }
@@ -54,11 +53,13 @@ namespace DeferVox
 
 			PreUpdate(this, new UpdateEventArgs(delta, _scene));
 
-#if DEBUG
-			// Debug key for halting execution
-			if (Keyboard.GetState().IsKeyDown(Key.Escape))
+			var keyState = Keyboard.GetState();
+			if ((keyState.IsKeyDown(Key.F4) && keyState.IsKeyDown(Key.AltLeft)) ||
+				keyState.IsKeyDown(Key.Escape))
+			{
 				KeepRunning = false;
-#endif
+			}
+
 			Update(this, new UpdateEventArgs(delta, _scene));
 
 			PostUpdate(this, new UpdateEventArgs(delta, _scene));

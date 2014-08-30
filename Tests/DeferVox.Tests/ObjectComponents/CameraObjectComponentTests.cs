@@ -4,7 +4,7 @@ using Xunit;
 
 namespace DeferVox.Tests.ObjectComponents
 {
-	public class CameraTests
+	public class CameraObjectComponentTests
 	{
 		[Fact]
 		public void Ratio_Values_CorrectRatio()
