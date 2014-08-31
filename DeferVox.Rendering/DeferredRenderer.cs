@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace DeferVox.Rendering
 {
-	public class DeferredRenderer : IDisposable
+	public sealed class DeferredRenderer : IDisposable
 	{
 		private readonly ShaderProgram _colorShaderProgram;
 		private readonly ShaderProgram _textureShaderProgram;

@@ -9,7 +9,7 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace DeferVox.Rendering
 {
-	public class RenderingGameComponent : IGameComponent, IDisposable
+	public sealed class RenderingGameComponent : IGameComponent, IDisposable
 	{
 		private readonly Dictionary<Mesh, RenderMesh> _renderMeshCache = new Dictionary<Mesh, RenderMesh>();
 		private readonly DeferredRenderer _renderer;
@@ -73,14 +73,16 @@ namespace DeferVox.Rendering
 
 				// Set up the base ProjectionView that scene notes will use as base
 				var view = cameraPair.Matrix.Inverted();
-				var projection = Matrix4.CreatePerspectiveFieldOfView(camera.VerticalFieldOfView, camera.Ratio, 0.1f, 100f);
-				_renderer.PvMatrix = view*projection;
+				var projection = Matrix4.CreatePerspectiveFieldOfView(camera.VerticalFieldOfView, camera.Ratio, 0.1f, 1000f);
+				var pvMatrix = view*projection;
+				_renderer.PvMatrix = pvMatrix;
 
 				// Render the meshes in the scene
+				// TODO: Frustum culling!
 				foreach (var meshPair in meshPairs)
 				{
 					var mesh = meshPair.Component.Mesh;
-
+					
 					RenderMesh renderMesh;
 					if (!_renderMeshCache.TryGetValue(mesh, out renderMesh))
 					{

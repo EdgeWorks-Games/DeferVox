@@ -1,20 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using OpenTK;
+using SharpNoise.Modules;
 
 namespace DeferVox.Toolbox.Voxels
 {
 	internal class VoxelChunk
 	{
+		public const float PerlinMapSize = 0.02f;
 		public const int Size = 16;
-		private static readonly Random Random = new Random();
+		private static readonly Perlin Perlin = new Perlin();
 
 		public Vector3I Position { get; private set; }
 		public Voxel[][][] Voxels { get; private set; }
 
 		public static VoxelChunk Generate(Vector3I position)
 		{
+			// TODO: Make chunk generation be done by a separate class.
+			// Some terrain features go accross chunks, such as the actual height map.
+
 			var voxels = new Voxel[Size][][];
 			for (var x = 0; x < Size; x++)
 			{
@@ -25,7 +29,12 @@ namespace DeferVox.Toolbox.Voxels
 
 				for (var z = 0; z < Size; z++)
 				{
-					var height = Random.Next(1, 4);
+					var perlinHeight = Perlin.GetValue(
+						((position.X*Size) + x)*PerlinMapSize, 0.5,
+						((position.Z*Size) + z)*PerlinMapSize);
+					var height = (perlinHeight + 1)*6;
+					height = MathHelper.Clamp(height, 1, Size - 0.1);
+
 					for (var y = 0; y < height; y++)
 						voxels[x][y][z] = new Voxel(true);
 				}

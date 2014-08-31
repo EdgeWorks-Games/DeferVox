@@ -6,7 +6,7 @@ using OpenTK.Graphics;
 
 namespace DeferVox.Window
 {
-	public class WindowGameComponent : IGameComponent, IDisposable
+	public sealed class WindowGameComponent : IGameComponent, IDisposable
 	{
 		private readonly GameEngine _engine;
 		private readonly GameWindow _window;

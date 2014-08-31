@@ -6,14 +6,16 @@ namespace DeferVox.Toolbox.Voxels
 {
 	public class VoxelMapObject : GameObject
 	{
+		private const int Size = 8;
+
 		public VoxelMapObject()
 		{
 			var chunks = new List<VoxelChunk>();
-			for (var x = -2; x < 2; x++)
+			for (var x = -Size; x < Size; x++)
 			{
-				for (var y = -2; y < 2; y++)
+				for (var z = -Size; z < Size; z++)
 				{
-					var chunk = VoxelChunk.Generate(new Vector3I(x, 0, y));
+					var chunk = VoxelChunk.Generate(new Vector3I(x, 0, z));
 					chunks.Add(chunk);
 
 					// Add the mesh to the scene

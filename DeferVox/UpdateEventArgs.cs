@@ -2,7 +2,7 @@
 
 namespace DeferVox
 {
-	public class UpdateEventArgs
+	public class UpdateEventArgs : EventArgs
 	{
 		public UpdateEventArgs(TimeSpan delta, GameScene scene)
 		{
